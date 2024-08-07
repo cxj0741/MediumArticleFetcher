@@ -37,6 +37,25 @@ async def fetch_data(keyword: str = Query(None, description="Keyword for search"
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# 保证服务启动，可以自动执行抓取数据代码
+# @app.on_event("startup")
+# async def startup_event():
+#     async def fetch_on_startup():
+#         async with async_playwright() as playwright:
+#             await run(playwright, refresh=True)
+#
+#     asyncio.create_task(fetch_on_startup())
+
+@app.on_event("startup")
+async def startup_event():
+    async def periodic_fetch():
+        while True:
+            async with async_playwright() as playwright:
+                await run(playwright, refresh=True)
+            await asyncio.sleep(12 * 60 * 60)  # 等待12个小时
+
+    asyncio.create_task(periodic_fetch())
+
 if __name__ == '__main__':
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=5000, log_level="info")

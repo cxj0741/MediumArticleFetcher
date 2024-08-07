@@ -64,7 +64,20 @@ async def run(playwright, keyword=None, refresh=False):
     page = await context.new_page()  # Ensure you use await to get the Page object
     await page.goto("https://medium.com/")
     await page.wait_for_load_state("load")
+    if keyword is not None:
+        await page.fill('[data-testid="headerSearchInput"]', keyword)
+        await page.keyboard.press('Enter')
+        await page.wait_for_load_state("load")
+        logger.info(f'已输入关键字搜索{keyword}')
+    else:
+        # 刷新页面
+        await page.reload()
+        await page.wait_for_load_state("load")
+        logger.info("页面已刷新")
     html_str = await scroll_to_bottom(page)
+    # 获取到html后关闭页面
+    await context.close()
+    # playwright.stop()
     soup = await create_soup(html_str)
     urls = get_urls(soup)
     for url in urls:
@@ -73,7 +86,7 @@ async def run(playwright, keyword=None, refresh=False):
             logger.info(f"将该{url}放入数据库成功")
         except Exception as e:
             logger.error(f'文章转pdf放入数据库出现错误：{e}')
-    await context.close()
+
 
 if __name__ == "__main__":
     global_exception_handler.GlobalExceptionHandler.setup()
