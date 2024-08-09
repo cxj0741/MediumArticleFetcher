@@ -1,12 +1,12 @@
 from playwright.async_api import async_playwright
 
 url3 = 'https://freedium.cfd/https://medium.com/neurodiversified/accessible-communication-benefits-everyone-b042eb916106'
-
+url1='https://freedium.cfd/https://medium.com/@gagliardidomenico/how-i-built-and-sold-a-micro-saas-in-45-days-d8949f8910ca?source=explore---------5-99--------------------60d1a55d_a6cc_4eaf_b1a4_d0452d3d27e7-------15'
 async def run(playwright):
     browser = await playwright.chromium.launch(headless=False)
     context = await browser.new_context()
     page = await context.new_page()
-    await page.goto(url3)
+    await page.goto(url1)
 
     # 等待页面和所有 img 元素加载完成
     await page.wait_for_timeout(5000)  # 等待 5 秒或根据需要调整

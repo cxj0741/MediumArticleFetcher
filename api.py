@@ -38,13 +38,13 @@ async def fetch_data(keyword: str = Query(None, description="Keyword for search"
         raise HTTPException(status_code=500, detail=str(e))
 
 # 保证服务启动，可以自动执行抓取数据代码
-# @app.on_event("startup")
-# async def startup_event():
-#     async def fetch_on_startup():
-#         async with async_playwright() as playwright:
-#             await run(playwright, refresh=True)
-#
-#     asyncio.create_task(fetch_on_startup())
+@app.on_event("startup")
+async def startup_event():
+    async def fetch_on_startup():
+        async with async_playwright() as playwright:
+            await run(playwright, refresh=True)
+
+    asyncio.create_task(fetch_on_startup())
 
 @app.on_event("startup")
 async def startup_event():

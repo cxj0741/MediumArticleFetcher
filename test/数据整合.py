@@ -77,11 +77,11 @@ async def run(url):
 async def main():
     async with async_playwright() as playwright:
         urls = [
-            # "https://freedium.cfd/https://medium.com/scuzzbucket/a-fly-in-the-wall-4048d0304351?source=explore---------0-110--------------------0b81d643_2feb_4454_a806_3095e9488345-------15",
-            # "https://freedium.cfd/https://medium.com/whitespectre/beyond-front-end-metrics-harnessing-backend-insights-for-scale-up-success-124f26add48a?source=explore---------1-108--------------------0b81d643_2feb_4454_a806_3095e9488345-------15",
-            # "https://freedium.cfd/https://medium.com/analysts-corner/define-your-end-goal-with-business-objectives-61b915459bd4?source=explore---------2-108--------------------0b81d643_2feb_4454_a806_3095e9488345-------15",
-            # "https://freedium.cfd/https://medium.com/imogenes-notebook/how-much-does-the-spinning-3c03316dd9fd?source=explore---------3-108--------------------0b81d643_2feb_4454_a806_3095e9488345-------15"
-            "https://medium.com/the-philosophical-inn/the-spooky-quote-by-bren"
+            "https://freedium.cfd/https://medium.com/scuzzbucket/a-fly-in-the-wall-4048d0304351?source=explore---------0-110--------------------0b81d643_2feb_4454_a806_3095e9488345-------15",
+            "https://freedium.cfd/https://medium.com/whitespectre/beyond-front-end-metrics-harnessing-backend-insights-for-scale-up-success-124f26add48a?source=explore---------1-108--------------------0b81d643_2feb_4454_a806_3095e9488345-------15",
+            "https://freedium.cfd/https://medium.com/analysts-corner/define-your-end-goal-with-business-objectives-61b915459bd4?source=explore---------2-108--------------------0b81d643_2feb_4454_a806_3095e9488345-------15",
+            "https://freedium.cfd/https://medium.com/imogenes-notebook/how-much-does-the-spinning-3c03316dd9fd?source=explore---------3-108--------------------0b81d643_2feb_4454_a806_3095e9488345-------15"
+            # "https://medium.com/the-philosophical-inn/the-spooky-quote-by-bren"
         ]
         content_tasks = [run(url) for url in urls]
         await asyncio.gather(*content_tasks)

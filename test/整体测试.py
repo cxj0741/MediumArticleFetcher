@@ -84,34 +84,14 @@ async def by_url_get_content(url: str, semaphore):
                 else:
                     logger.error(f'生成pdf失败,重试达到上限，失败的URL为 {url}: {e}')
 
-async def reload_page(page: Page):
-    try:
-        await page.reload()
-        await page.wait_for_load_state('networkidle')  # 等待页面完全加载
-        logger.info('页面重新加载成功')
-    except Exception as e:
-        logger.error(f'重新加载页面时出错: {e}')
-async def check_page_status(page: Page):
-    try:
-        element = await page.query_selector('heml')
-        if element is None:
-            logger.error('页面元素丢失，可能需要重新加载')
-            await reload_page(page)
-            # 进行重新加载或其他处理
-    except Exception as e:
-        logger.error(f'检查页面状态时出错: {e}')
-
-
 async def scrape_article_content_and_images(url, context):
     page=None
     article_data = {'url': url}
 
     try:
         page = await context.new_page()
-        await page.goto(url, timeout=1200000)  # 设置页面加载超时时间
-        print("到达页面")
-        # await page.wait_for_load_state('networkidle')  # 等待网络空闲
-        # await reload_page(page)
+        await page.goto(url, timeout=60000)  # 设置页面加载超时时间
+        await page.wait_for_load_state('networkidle')  # 等待网络空闲
 
 
         try:
@@ -140,9 +120,7 @@ async def scrape_article_content_and_images(url, context):
             article_data['images'] = images
 
         new_url = remove_prefix(url)
-        await page.goto(new_url, timeout=1200000)  # 设置页面加载超时时间
-        # print("到达新页面")
-        # await check_page_status(page)
+        await page.goto(new_url, timeout=60000)  # 设置页面加载超时时间
 
         try:
             author_locator = page.get_by_test_id("authorName")
@@ -157,7 +135,7 @@ async def scrape_article_content_and_images(url, context):
             article_data['comments'] = article_data.get('comments', None)
         try:
             likes_locator = page.locator(
-                ' #root > div > div > div > div > article > div > div > section > div > div>div>div>div>div>div>div>div>div>div>div>div div > div > p > button ')
+                ' #root > div > div > div:nth-child(2) > div > article > div > div > section > div > div>div>div>div>div>div>div>div>div>div>div>div div > div > p > button ')
             article_data['likes'] = await likes_locator.inner_text()
         except:
             article_data['likes'] = article_data.get('likes', None)
@@ -168,15 +146,16 @@ async def scrape_article_content_and_images(url, context):
 
         article_data_list.append(article_data)
         logger.info(f"这次生成的数据为{article_data}")
-    #
+
     except Exception as e:
+        logger.error(f'{url}文章无法生成结构化数据: {e}')
         # 检查并填充缺失的数据
         article_data['content'] = article_data.get('content', None)
         article_data['images'] = article_data.get('images', None)
         article_data['author'] = article_data.get('author', None)
         article_data['comments'] = article_data.get('comments', None)
         article_data['likes'] = article_data.get('likes', None)
-        logger.error(f"警告!!!这次生成的数据为{article_data},文章无法生成结构化数据{url}:{e}")
+
         article_data_list.append(article_data)
 
     finally:
@@ -186,92 +165,11 @@ async def scrape_article_content_and_images(url, context):
             except Exception as e:
                 logger.error(f'关闭页面时出错: {e}')
 
-# async def scrape_article_likes_and_comments_and_author(url, context):
-#     page=None
-#     article_data = {'url': url}
-#
-#     try:
-#         page = await context.new_page()
-#         await page.goto(url, timeout=120000)  # 设置页面加载超时时间
-#         await page.wait_for_load_state('networkidle')  # 等待网络空闲
-#
-#
-#         try:
-#             content = page.locator(
-#                 r'body > div.container.w-full.md\:max-w-3xl.mx-auto.pt-20.break-words.text-gray-900.dark\:text-gray-200.bg-white.dark\:bg-gray-800 > div.w-full.px-4.md\:px-6.text-xl.text-gray-800.dark\:text-gray-100.leading-normal > div.main-content.mt-8')
-#             text = await content.inner_text()
-#             article_data['content'] = text
-#         except:
-#             article_data['content'] = article_data.get('content', None)
-#         logger.info(f'文章内容: {text[:5]}...')  # 只记录前100个字符
-#
-#         img_element = await page.query_selector('.main-content img')
-#         if img_element is None:
-#             logger.info('没有找到 img 元素')
-#             article_data['images'] = []
-#         else:
-#             imgs = page.locator('.main-content img')
-#             img_count = await imgs.count()
-#             images = []
-#             for i in range(img_count):
-#                 img_element = imgs.nth(i)
-#                 src = await img_element.get_attribute('src')
-#                 if not src:
-#                     src = await img_element.get_attribute('data-src')
-#                 images.append(src)
-#             article_data['images'] = images
-#
-#         new_url = remove_prefix(url)
-#         await page.goto(new_url, timeout=120000)  # 设置页面加载超时时间
-#
-#         try:
-#             author_locator = page.get_by_test_id("authorName")
-#             article_data['author'] = await author_locator.inner_text()
-#         except:
-#             article_data['author'] = article_data.get('author', None)
-#
-#         try:
-#             comments_locator = page.locator("section").get_by_label("responses")
-#             article_data['comments'] = await comments_locator.inner_text()
-#         except:
-#             article_data['comments'] = article_data.get('comments', None)
-#         try:
-#             likes_locator = page.locator(
-#                 ' #root > div > div > div:nth-child(2) > div > article > div > div > section > div > div>div>div>div>div>div>div>div>div>div>div>div div > div > p > button ')
-#             article_data['likes'] = await likes_locator.inner_text()
-#         except:
-#             article_data['likes'] = article_data.get('likes', None)
-#
-#         logger.info(f'作者: {article_data["author"]}')
-#         logger.info(f'评论数量: {article_data["comments"]}')
-#         logger.info(f'点赞量: {article_data["likes"]}')
-#
-#         article_data_list.append(article_data)
-#         logger.info(f"这次生成的数据为{article_data}")
-#     #
-#     except Exception as e:
-#         logger.error(f'{url}文章无法生成结构化数据: {e}')
-#         # 检查并填充缺失的数据
-#         article_data['content'] = article_data.get('content', None)
-#         article_data['images'] = article_data.get('images', None)
-#         article_data['author'] = article_data.get('author', None)
-#         article_data['comments'] = article_data.get('comments', None)
-#         article_data['likes'] = article_data.get('likes', None)
-#
-#         article_data_list.append(article_data)
-#
-#     finally:
-#         if page:
-#             try:
-#                 await page.close()
-#             except Exception as e:
-#                 logger.error(f'关闭页面时出错: {e}')
-
 async def run(playwright, keyword=None, refresh=False):
     try:
         context = await playwright.chromium.launch_persistent_context(
             user_data_dir=r'C:\Users\86157\AppData\Local\Google\Chrome\User Data',
-            headless=False,
+            headless=True,
             viewport={"width": 1280, "height": 720}
         )
         page = await context.new_page()
@@ -291,23 +189,49 @@ async def run(playwright, keyword=None, refresh=False):
 
         soup = await create_soup(html_str)
         urls = get_urls(soup)
-        # urls = [
-        #     "https://freedium.cfd/https://medium.com/scuzzbucket/a-fly-in-the-wall-4048d0304351?source=explore---------0-110--------------------0b81d643_2feb_4454_a806_3095e9488345-------15",
-        #     "https://freedium.cfd/https://medium.com/whitespectre/beyond-front-end-metrics-harnessing-backend-insights-for-scale-up-success-124f26add48a?source=explore---------1-108--------------------0b81d643_2feb_4454_a806_3095e9488345-------15",
-        #     "https://freedium.cfd/https://medium.com/analysts-corner/define-your-end-goal-with-business-objectives-61b915459bd4?source=explore---------2-108--------------------0b81d643_2feb_4454_a806_3095e9488345-------15",
-        #     "https://freedium.cfd/https://medium.com/imogenes-notebook/how-much-does-the-spinning-3c03316dd9fd?source=explore---------3-108--------------------0b81d643_2feb_4454_a806_3095e9488345-------15"
-        #     # "https://medium.com/the-philosophical-inn/the-spooky-quote-by-bren"
-        # ]
 
-        content_tasks = [scrape_article_content_and_images(url, context) for url in urls]
-        await asyncio.gather(*content_tasks)
+        # 创建任务
+        timeout_seconds = 30  # 每个任务的超时时间
+        content_tasks = [
+            asyncio.create_task(
+                asyncio.wait_for(scrape_article_content_and_images(url, context), timeout=timeout_seconds)
+            )
+            for url in urls
+        ]
+
+        # 使用 asyncio.wait 处理任务
+        done, pending = await asyncio.wait(content_tasks, return_when=asyncio.ALL_COMPLETED)
+
+        # 处理超时的任务
+        max_retries = 3  # 最大重试次数
+        retry_count = 0
+
+        while pending and retry_count < max_retries:
+            retry_count += 1
+            logger.info(f'第 {retry_count} 次重试处理超时任务')
+            new_tasks = [
+                asyncio.create_task(
+                    asyncio.wait_for(scrape_article_content_and_images(urls[idx], context), timeout=timeout_seconds)
+                )
+                for idx, task in enumerate(content_tasks) if task in pending
+            ]
+
+            done, pending = await asyncio.wait(new_tasks, return_when=asyncio.ALL_COMPLETED)
+
+        # 最终处理成功完成的任务
+        for task in done:
+            try:
+                await task  # 这将引发任务中的任何异常
+            except asyncio.TimeoutError:
+                logger.error(f'任务 {task} 超时')
+            except Exception as e:
+                logger.error(f'任务 {task} 失败，错误: {e}')
+
+        if pending:
+            logger.warning(f'有任务在重试 {max_retries} 次后仍未完成: {pending}')
 
     finally:
-        # 在所有任务完成后再关闭 context
         await context.close()
-        insert_articles_batch(article_data_list)
-        logger.info("本次抓取结束")
-
 
 if __name__ == "__main__":
     global_exception_handler.GlobalExceptionHandler.setup()
