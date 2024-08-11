@@ -5,7 +5,7 @@ from playwright.sync_api import sync_playwright
 def run(keyword=None, refresh=False):
     # 直接使用绝对路径
     # user_data_dir = '/home/ubuntu/MediumArticleFetcher/User Data'
-    user_data_dir = os.path.abspath('../User Data')
+    user_data_dir = os.path.abspath('./User Data')
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch_persistent_context(
             user_data_dir=user_data_dir,
