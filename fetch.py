@@ -208,6 +208,10 @@ async def run(playwright, keyword=None, refresh=False):
         # print(f"User data directory: {os.path.abspath('./User Data')}")
         page = await context.new_page()
         await page.goto("https://medium.com/")
+        # 输出整个页面的文本内容
+        content = await page.content()
+        print(content)  # 打印页面内容到控制台
+
         await page.wait_for_load_state("load")
         await page.wait_for_timeout(2000)
         if keyword is not None:
