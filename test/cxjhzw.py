@@ -11,7 +11,7 @@ def run(playwright: Playwright) -> None:
 
     # 等待页面加载完成（可选，具体等待条件可以根据需要调整）
     page.wait_for_load_state('networkidle')
-
+    print("???")
     # 获取整个页面的文本内容
     page_text = page.inner_text('body')  # 'body' 选择器可以获取整个页面的文本内容
 
