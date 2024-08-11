@@ -203,8 +203,8 @@ async def run(playwright, keyword=None, refresh=False):
             headless=False,
             viewport={"width": 1280, "height": 720}
         )
-        print("看看能否ok")
-        logger.info("看看能否ok111111111111")
+        # print("看看能否ok")
+        logger.info(user_data_dir)
         # print(f"User data directory: {os.path.abspath('./User Data')}")
         page = await context.new_page()
         await page.goto("https://medium.com/")
