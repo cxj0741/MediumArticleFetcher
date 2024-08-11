@@ -192,12 +192,13 @@ async def scrape_article_content_and_images(url, context):
 
 
 async def run(playwright, keyword=None, refresh=False):
-    user_data_dir=os.path.abspath('./User Data')
+    # user_data_dir=os.path.abspath('./User Data')
+    user_data_dir = '/home/ubuntu/MediumArticleFetcher/User Data'
     try:
         context = await playwright.chromium.launch_persistent_context(
             user_data_dir=user_data_dir,
             # user_data_dir=r'C:\Users\86157\AppData\Local\Google\Chrome\User Data',
-            # user_data_dir=r'D:\pythonProject\MediumArticleFetcher\User Data',
+            # user_data_dir=r'D:\pythonProject\MediumArticleFetcher\User Data1',
             # user_data_dir=r'./User Data', user_data_dir=r'D:\pythonProject\MediumArticleFetcher\User Data',
             # user_data_dir=r'./User Data',
             headless=False,
