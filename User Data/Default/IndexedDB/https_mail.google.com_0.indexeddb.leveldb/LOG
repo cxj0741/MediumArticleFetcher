@@ -1,0 +1,6 @@
+2024/07/29-18:22:50.115 3abc Creating DB C:\Users\86157\AppData\Local\Google\Chrome\User Data\Default\IndexedDB\https_mail.google.com_0.indexeddb.leveldb since it was missing.
+2024/07/29-18:22:50.129 3abc Reusing MANIFEST C:\Users\86157\AppData\Local\Google\Chrome\User Data\Default\IndexedDB\https_mail.google.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/07/29-18:40:30.012 3abc Level-0 table #5: started
+2024/07/29-18:40:30.031 3abc Level-0 table #5: 1446778 bytes OK
+2024/07/29-18:40:30.034 3abc Delete type=0 #3
+2024/07/29-18:40:30.034 3abc Manual compaction at level-0 from (begin) .. (end); will stop at (end)

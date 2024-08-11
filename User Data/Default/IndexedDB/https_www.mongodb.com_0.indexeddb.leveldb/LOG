@@ -1,0 +1,7 @@
+2024/08/06-22:07:16.040 5a64 Reusing MANIFEST C:\Users\86157\AppData\Local\Google\Chrome\User Data\Default\IndexedDB\https_www.mongodb.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/08/06-22:07:16.041 5a64 Recovering log #3
+2024/08/06-22:07:16.043 5a64 Reusing old log C:\Users\86157\AppData\Local\Google\Chrome\User Data\Default\IndexedDB\https_www.mongodb.com_0.indexeddb.leveldb/000003.log 
+2024/08/06-22:17:11.458 1ab0 Level-0 table #5: started
+2024/08/06-22:17:11.463 1ab0 Level-0 table #5: 52650 bytes OK
+2024/08/06-22:17:11.465 1ab0 Delete type=0 #3
+2024/08/06-22:17:11.483 1ab0 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

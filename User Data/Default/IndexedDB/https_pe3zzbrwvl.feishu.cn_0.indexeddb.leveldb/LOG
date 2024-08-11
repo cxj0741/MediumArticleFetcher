@@ -1,0 +1,7 @@
+2024/08/06-00:08:20.238 32a4 Reusing MANIFEST C:\Users\86157\AppData\Local\Google\Chrome\User Data\Default\IndexedDB\https_pe3zzbrwvl.feishu.cn_0.indexeddb.leveldb/MANIFEST-000001
+2024/08/06-00:08:20.239 32a4 Recovering log #3
+2024/08/06-00:08:20.240 32a4 Reusing old log C:\Users\86157\AppData\Local\Google\Chrome\User Data\Default\IndexedDB\https_pe3zzbrwvl.feishu.cn_0.indexeddb.leveldb/000003.log 
+2024/08/06-08:38:54.567 32a4 Level-0 table #5: started
+2024/08/06-08:38:54.575 32a4 Level-0 table #5: 261636 bytes OK
+2024/08/06-08:38:54.578 32a4 Delete type=0 #3
+2024/08/06-08:38:54.579 32a4 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

@@ -3,6 +3,6 @@
 # 配置参数
 SCROLL_DISTANCE = 200
 SELECTOR = '.na'
-MAX_ELEMENTS = 100
+MAX_ELEMENTS = 10
 BASE_URL='https://medium.com'
 FREE_URL_PREFIX='https://freedium.cfd/'

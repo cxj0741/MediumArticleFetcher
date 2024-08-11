@@ -192,10 +192,14 @@ async def scrape_article_content_and_images(url, context):
 async def run(playwright, keyword=None, refresh=False):
     try:
         context = await playwright.chromium.launch_persistent_context(
-            user_data_dir=r'C:\Users\86157\AppData\Local\Google\Chrome\User Data',
+            # user_data_dir=r'C:\Users\86157\AppData\Local\Google\Chrome\User Data',
+            user_data_dir=r'D:\pythonProject\MediumArticleFetcher\User Data',
+            # user_data_dir=r'./User Data', user_data_dir=r'D:\pythonProject\MediumArticleFetcher\User Data',
+            # user_data_dir=r'./User Data',
             headless=False,
             viewport={"width": 1280, "height": 720}
         )
+        # print(f"User data directory: {os.path.abspath('./User Data')}")
         page = await context.new_page()
         await page.goto("https://medium.com/")
         await page.wait_for_load_state("load")
