@@ -1,28 +1,10 @@
-2024/08/11-12:22:15.459 29cc Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/MANIFEST-000001
-2024/08/11-12:22:15.467 29cc Recovering log #2913
-2024/08/11-12:22:15.468 29cc Level-0 table #2916: started
-2024/08/11-12:22:15.481 29cc Level-0 table #2916: 21248 bytes OK
-2024/08/11-12:22:15.482 29cc Recovering log #2915
-2024/08/11-12:22:15.486 29cc Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/002915.log 
-2024/08/11-12:22:15.492 29cc Delete type=0 #2913
-2024/08/11-12:22:15.493 4760 Compacting 4@0 + 6@1 files
-2024/08/11-12:22:15.580 4760 Generated table #2917@0: 4518 keys, 2122400 bytes
-2024/08/11-12:22:15.628 4760 Generated table #2918@0: 2894 keys, 2181925 bytes
-2024/08/11-12:22:15.683 4760 Generated table #2919@0: 16208 keys, 2104770 bytes
-2024/08/11-12:22:15.721 4760 Generated table #2920@0: 31461 keys, 2106927 bytes
-2024/08/11-12:22:15.742 4760 Generated table #2921@0: 847 keys, 965959 bytes
-2024/08/11-12:22:15.751 4760 Generated table #2922@0: 3946 keys, 217844 bytes
-2024/08/11-12:22:15.751 4760 Compacted 4@0 + 6@1 files => 9699825 bytes
-2024/08/11-12:22:15.752 4760 compacted to: files[ 0 7 19 0 0 0 0 ]
-2024/08/11-12:22:15.753 4760 Delete type=2 #2901
-2024/08/11-12:22:15.753 4760 Delete type=2 #2902
-2024/08/11-12:22:15.753 4760 Delete type=2 #2903
-2024/08/11-12:22:15.753 4760 Delete type=2 #2904
-2024/08/11-12:22:15.753 4760 Delete type=2 #2905
-2024/08/11-12:22:15.753 4760 Delete type=2 #2906
-2024/08/11-12:22:15.753 4760 Delete type=2 #2908
-2024/08/11-12:22:15.754 4760 Delete type=2 #2911
-2024/08/11-12:22:15.754 4760 Delete type=2 #2914
-2024/08/11-12:22:15.754 4760 Delete type=2 #2916
-2024/08/11-12:23:14.337 4760 Level-0 table #2924: started
-2024/08/11-12:23:14.349 4760 Level-0 table #2924: 27304 bytes OK
+2024/08/11-14:51:08.918 4ffc Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/MANIFEST-000001
+2024/08/11-14:51:08.957 4ffc Recovering log #2915
+2024/08/11-14:51:08.957 4ffc Level-0 table #2924: started
+2024/08/11-14:51:08.981 4ffc Level-0 table #2924: 27304 bytes OK
+2024/08/11-14:51:08.992 4ffc Recovering log #2923
+2024/08/11-14:51:09.000 4ffc Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/002923.log 
+2024/08/11-14:51:09.014 4ffc Delete type=0 #2915
+2024/08/11-14:51:50.041 4298 Level-0 table #2926: started
+2024/08/11-14:51:50.047 4298 Level-0 table #2926: 18052 bytes OK
+2024/08/11-14:51:50.049 4298 Delete type=0 #2923
