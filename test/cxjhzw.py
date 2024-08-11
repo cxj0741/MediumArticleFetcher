@@ -1,27 +1,26 @@
-from playwright.sync_api import Playwright, sync_playwright
+import os
+from playwright.sync_api import sync_playwright
 
 
-def run(playwright: Playwright) -> None:
-    browser = playwright.chromium.launch(headless=False)
-    context = browser.new_context()
-    page = context.new_page()
+def run(keyword=None, refresh=False):
+    user_data_dir = os.path.abspath('../User Data')
 
-    # 导航到页面
-    page.goto("https://medium.com/")
+    with sync_playwright() as playwright:
+        browser = playwright.chromium.launch_persistent_context(
+            user_data_dir=user_data_dir,
+            headless=False,
+            viewport={"width": 1280, "height": 720}
+        )
+        page = browser.new_page()
+        page.goto("https://medium.com/")
 
-    # 等待页面加载完成（可选，具体等待条件可以根据需要调整）
-    page.wait_for_load_state('networkidle')
-    print("???")
-    # 获取整个页面的文本内容
-    page_text = page.inner_text('body')  # 'body' 选择器可以获取整个页面的文本内容
+        # 输出整个页面的文本内容
+        content = page.content()
+        print(content)  # 打印页面内容到控制台
 
-    # 输出页面文本内容
-    print(page_text)
-
-    # 关闭上下文和浏览器
-    context.close()
-    browser.close()
+        # 关闭浏览器
+        browser.close()
 
 
-with sync_playwright() as playwright:
-    run(playwright)
+if __name__ == "__main__":
+    run()
