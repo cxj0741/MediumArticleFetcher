@@ -22,8 +22,8 @@ async def create_soup(page_content):
     return soup
 
 async def scroll_to_bottom(page: Page):
-    await page.wait_for_selector('body')
-    await page.wait_for_timeout(2000)
+    await page.wait_for_selector('#root')
+    await page.wait_for_timeout(5000)
     i = 1
     html_str = ''
     while True:
@@ -204,7 +204,7 @@ async def run(playwright, keyword=None, refresh=False):
             viewport={"width": 1280, "height": 720}
         )
         print("看看能否ok")
-        logger.info("看看能否ok")
+        logger.info("看看能否ok11111111")
         # print(f"User data directory: {os.path.abspath('./User Data')}")
         page = await context.new_page()
         await page.goto("https://medium.com/")
