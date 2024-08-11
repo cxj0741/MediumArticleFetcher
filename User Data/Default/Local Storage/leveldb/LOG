@@ -1,5 +1,27 @@
-2024/08/11-15:13:16.536 4aa0 Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/MANIFEST-000001
-2024/08/11-15:13:16.547 4aa0 Recovering log #2925
-2024/08/11-15:13:16.554 4aa0 Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/002925.log 
-2024/08/11-15:13:33.484 4aa0 Level-0 table #2929: started
-2024/08/11-15:13:33.509 4aa0 Level-0 table #2929: 20004 bytes OK
+2024/08/11-16:22:33.559 984 Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/MANIFEST-000001
+2024/08/11-16:22:33.585 984 Recovering log #2928
+2024/08/11-16:22:33.586 984 Level-0 table #2930: started
+2024/08/11-16:22:33.609 984 Level-0 table #2930: 16678 bytes OK
+2024/08/11-16:22:33.610 984 Recovering log #2930
+2024/08/11-16:22:33.614 984 Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/002930.log 
+2024/08/11-16:22:33.646 984 Delete type=0 #2928
+2024/08/11-16:22:33.647 984 Delete type=2 #2931
+2024/08/11-16:22:33.648 48c0 Compacting 4@0 + 6@1 files
+2024/08/11-16:22:33.751 48c0 Generated table #2931@0: 4583 keys, 2128327 bytes
+2024/08/11-16:22:33.834 48c0 Generated table #2932@0: 2902 keys, 2182100 bytes
+2024/08/11-16:22:33.892 48c0 Generated table #2933@0: 16220 keys, 2103352 bytes
+2024/08/11-16:22:33.946 48c0 Generated table #2934@0: 31884 keys, 2116395 bytes
+2024/08/11-16:22:33.968 48c0 Generated table #2935@0: 859 keys, 968447 bytes
+2024/08/11-16:22:33.980 48c0 Generated table #2936@0: 3997 keys, 225550 bytes
+2024/08/11-16:22:33.980 48c0 Compacted 4@0 + 6@1 files => 9724171 bytes
+2024/08/11-16:22:33.981 48c0 compacted to: files[ 0 7 19 0 0 0 0 ]
+2024/08/11-16:22:33.982 48c0 Delete type=2 #2917
+2024/08/11-16:22:33.983 48c0 Delete type=2 #2918
+2024/08/11-16:22:33.983 48c0 Delete type=2 #2919
+2024/08/11-16:22:33.983 48c0 Delete type=2 #2920
+2024/08/11-16:22:33.983 48c0 Delete type=2 #2921
+2024/08/11-16:22:33.983 48c0 Delete type=2 #2922
+2024/08/11-16:22:33.983 48c0 Delete type=2 #2924
+2024/08/11-16:22:33.983 48c0 Delete type=2 #2926
+2024/08/11-16:22:33.983 48c0 Delete type=2 #2928
+2024/08/11-16:22:33.983 48c0 Delete type=2 #2930
