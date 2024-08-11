@@ -11,6 +11,8 @@ def run(keyword=None, refresh=False):
             headless=False,
             viewport={"width": 1280, "height": 720}
         )
+        print("User data directory:", user_data_dir)
+
         page = browser.new_page()
         page.goto("https://medium.com/")
 
