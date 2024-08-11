@@ -1,5 +1,3 @@
-2024/08/11-15:52:33.682 4b2c Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/MANIFEST-000001
-2024/08/11-15:52:33.694 4b2c Recovering log #2928
-2024/08/11-15:52:33.702 4b2c Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/002928.log 
-2024/08/11-15:52:53.658 a1c Level-0 table #2931: started
-2024/08/11-15:52:53.667 a1c Level-0 table #2931: 16678 bytes OK
+2024/08/11-17:00:43.752 45bc Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/MANIFEST-000001
+2024/08/11-17:00:43.759 45bc Recovering log #2930
+2024/08/11-17:00:43.771 45bc Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/002930.log 
