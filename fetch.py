@@ -22,7 +22,7 @@ async def create_soup(page_content):
     return soup
 
 async def scroll_to_bottom(page: Page):
-    await page.wait_for_selector('#root')
+    await page.wait_for_selector('#root > div > div> div> div > div > button > div > div > div')
     await page.wait_for_timeout(5000)
     i = 1
     html_str = ''
