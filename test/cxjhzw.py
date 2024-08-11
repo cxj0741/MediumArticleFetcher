@@ -14,11 +14,9 @@ def run(keyword=None, refresh=False):
         page = browser.new_page()
         page.goto("https://medium.com/")
 
-        # 输出整个页面的文本内容
-        content = page.content()
-        print(content)  # 打印页面内容到控制台
-
-        # 关闭浏览器
+        likes_locator = page.locator(
+            ' #root > div > div.s.c > div.bz.gr.gs.gt > div.gw.gx.gy.gz.ha.hb.hc.hd.af.he.hf.hg.hh.hi.hj.n.bz > div')
+        print(likes_locator.inner_text())
         browser.close()
 
 
