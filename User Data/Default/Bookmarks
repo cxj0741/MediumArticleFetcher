@@ -1,0 +1,80 @@
+{
+   "checksum": "70fe3b0451579dee8243cc755e7ceb58",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "13311826548837876",
+            "date_last_used": "13366694974185703",
+            "guid": "bf01a4ca-3625-43ff-80be-c178731196e1",
+            "id": "10",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "哔哩哔哩 (゜-゜)つロ 干杯~-bilibili",
+            "type": "url",
+            "url": "https://www.bilibili.com/"
+         }, {
+            "date_added": "13311827845205553",
+            "date_last_used": "13366694850032461",
+            "guid": "7f00c29b-62a6-4a17-99f8-97e6bb23bf27",
+            "id": "12",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "活动 - AcWing",
+            "type": "url",
+            "url": "https://www.acwing.com/activity/content/11/"
+         }, {
+            "date_added": "13311828724391771",
+            "date_last_used": "13366694847957389",
+            "guid": "1b676e0f-741b-4610-86ed-a9416cc496aa",
+            "id": "13",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "第8讲 STL - AcWing",
+            "type": "url",
+            "url": "https://www.acwing.com/file_system/file/content/whole/index/content/3598249/"
+         }, {
+            "date_added": "13311845695861938",
+            "date_last_used": "13366694978602504",
+            "guid": "7a3349bf-8bd7-494a-8cff-3718f6c1b630",
+            "id": "14",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Typing Practice",
+            "type": "url",
+            "url": "https://www.keybr.com/"
+         } ],
+         "date_added": "13311824657074158",
+         "date_last_used": "0",
+         "date_modified": "13311845695861938",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "书签栏",
+         "type": "folder"
+      },
+      "other": {
+         "children": [  ],
+         "date_added": "13311824657074159",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "其他书签",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13311824657074160",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "移动设备书签",
+         "type": "folder"
+      }
+   },
+   "version": 1
+}

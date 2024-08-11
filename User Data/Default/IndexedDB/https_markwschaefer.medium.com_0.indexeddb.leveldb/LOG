@@ -1,0 +1,7 @@
+2024/08/09-14:30:17.399 5510 Reusing MANIFEST C:\Users\86157\AppData\Local\Google\Chrome\User Data\Default\IndexedDB\https_markwschaefer.medium.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/08/09-14:30:17.406 5510 Recovering log #3
+2024/08/09-14:30:17.406 5510 Reusing old log C:\Users\86157\AppData\Local\Google\Chrome\User Data\Default\IndexedDB\https_markwschaefer.medium.com_0.indexeddb.leveldb/000003.log 
+2024/08/09-14:30:24.439 5744 Level-0 table #5: started
+2024/08/09-14:30:24.453 5744 Level-0 table #5: 3471 bytes OK
+2024/08/09-14:30:24.456 5744 Delete type=0 #3
+2024/08/09-14:30:24.457 5744 Manual compaction at level-0 from (begin) .. (end); will stop at (end)

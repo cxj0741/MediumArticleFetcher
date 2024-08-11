@@ -1,0 +1,24 @@
+2024/08/11-20:45:02.771 4710 Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/MANIFEST-000001
+2024/08/11-20:45:02.779 4710 Recovering log #2968
+2024/08/11-20:45:02.779 4710 Level-0 table #2971: started
+2024/08/11-20:45:02.787 4710 Level-0 table #2971: 16644 bytes OK
+2024/08/11-20:45:02.788 4710 Recovering log #2971
+2024/08/11-20:45:02.792 4710 Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/002971.log 
+2024/08/11-20:45:02.809 4710 Delete type=0 #2968
+2024/08/11-20:45:02.810 4710 Delete type=2 #2972
+2024/08/11-20:45:02.812 593c Compacting 4@0 + 4@1 files
+2024/08/11-20:45:02.873 593c Generated table #2972@0: 4583 keys, 2128322 bytes
+2024/08/11-20:45:02.918 593c Generated table #2973@0: 2902 keys, 2182100 bytes
+2024/08/11-20:45:02.980 593c Generated table #2974@0: 16220 keys, 2103352 bytes
+2024/08/11-20:45:03.049 593c Generated table #2975@0: 35734 keys, 2112595 bytes
+2024/08/11-20:45:03.058 593c Generated table #2976@0: 10 keys, 73651 bytes
+2024/08/11-20:45:03.058 593c Compacted 4@0 + 4@1 files => 8600020 bytes
+2024/08/11-20:45:03.060 593c compacted to: files[ 0 8 19 0 0 0 0 ]
+2024/08/11-20:45:03.061 593c Delete type=2 #2960
+2024/08/11-20:45:03.062 593c Delete type=2 #2961
+2024/08/11-20:45:03.062 593c Delete type=2 #2962
+2024/08/11-20:45:03.062 593c Delete type=2 #2963
+2024/08/11-20:45:03.062 593c Delete type=2 #2965
+2024/08/11-20:45:03.062 593c Delete type=2 #2967
+2024/08/11-20:45:03.062 593c Delete type=2 #2969
+2024/08/11-20:45:03.062 593c Delete type=2 #2971

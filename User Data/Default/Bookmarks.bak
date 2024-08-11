@@ -1,0 +1,81 @@
+{
+   "checksum": "70fe3b0451579dee8243cc755e7ceb58",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "13311826548837876",
+            "date_last_used": "13366694974185703",
+            "guid": "bf01a4ca-3625-43ff-80be-c178731196e1",
+            "id": "10",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "哔哩哔哩 (゜-゜)つロ 干杯~-bilibili",
+            "type": "url",
+            "url": "https://www.bilibili.com/"
+         }, {
+            "date_added": "13311827845205553",
+            "date_last_used": "13366694850032461",
+            "guid": "7f00c29b-62a6-4a17-99f8-97e6bb23bf27",
+            "id": "12",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "活动 - AcWing",
+            "type": "url",
+            "url": "https://www.acwing.com/activity/content/11/"
+         }, {
+            "date_added": "13311828724391771",
+            "date_last_used": "13366694847957389",
+            "guid": "1b676e0f-741b-4610-86ed-a9416cc496aa",
+            "id": "13",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "第8讲 STL - AcWing",
+            "type": "url",
+            "url": "https://www.acwing.com/file_system/file/content/whole/index/content/3598249/"
+         }, {
+            "date_added": "13311845695861938",
+            "date_last_used": "13366694978602504",
+            "guid": "7a3349bf-8bd7-494a-8cff-3718f6c1b630",
+            "id": "14",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Typing Practice",
+            "type": "url",
+            "url": "https://www.keybr.com/"
+         } ],
+         "date_added": "13311824657074158",
+         "date_last_used": "0",
+         "date_modified": "13311845695861938",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "书签栏",
+         "type": "folder"
+      },
+      "other": {
+         "children": [  ],
+         "date_added": "13311824657074159",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "其他书签",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13311824657074160",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "移动设备书签",
+         "type": "folder"
+      }
+   },
+   "sync_metadata": "Ct4BCr0BCIiBAhK2ASAAkgGwAQpnCg5jaHJvbWVfc3luY19ibRIFNTEhYm0aEgkiqHTCKR8GABEiqHTCKR8GACIxCWoGaMIpHwYAEAcZ+wKr3tMtDg0gASoZNTEhYm06NzA1NTk4NDgwMDQ0MDQ1NzA0NSlpwnXCKR8GAApFChZhbm5vdGF0aW9uX2Nocm9tZV9zeW5jEgU1MSFiZBoSCYANSL0pHwYAEYANSL0pHwYAKfO1dMIpHwYAMICboOqb5YcDEgAqGFBBNEsxZ0paMXVpcWNaZnRpY05QTEE9PUgDEusBCAoS5gEKHCtUOXdpaXFGOS9vczQ0MVBPWlRQTEZNbUFKVT0SZlo6QURxdEFaeEhaUTUyZm1SSll3dU81a0FEa0tZYlRPZEFYek96dExsQjd1Rk45dmNmNExhNlk4QThFLzhTZDdkTFIvWG5NUXNLamFZMFNoRTJsZDNFWVVNS0FXLzMwSmJhUlE9PRgAIAEoATDqjKCTnOWHAziu6OiMkzJArujojJMyShxxY2M1OFhNSjVDcG1YR25ieDNyenRLZG1jKzQ9Wh4iHGF1R0FrMFp0bTdxYnViK2wxNzRZK0crSk5qbz1lxfThgBLsAQgNEucBChxvYVFNK2JyUWJsaERrUElMcnV3akFkOFZGL3c9EmZaOkFEcXRBWnhIWlE1MmZtUkpZd3VPNWtBRGtLWWJxdmRpRVFOMVVVdTFHcnpJMEhRcm9INkJDVzNUTE5IR3h6VlVhZS9DZFI1STZpZGdadmJRMjQzem8xa3Qrd1Q2MHlOTUh3PT0YACABKAEw6oygk5zlhwM4rujojJMyQK7o6IyTMkocTFBzblJBVXZ6Nm1pZ25GWHZEN3hCa29OeTFVPVofIh3YN2I2UmdSWUdFaVhtSm1iMDdhdmZDNm9CbVJZPWUqmiWeEuwBCAwS5wEKHG5lYWtrM0gyb3RaU2ZvTkhnZGlGdTBSV0JNaz0SZlo6QURxdEFaeEhaUTUyZm1SSll3dU81a0FEa0tZYkdRMm5OOTR6dmpwNFlUNFRKYllvRE5Oa2UzOTlTQ281bW8xekNTUkRTc1N2TTFNTEpwSDJvbFZrT2tzeXM4bFhCSkpHV0E9PRgAIAEoATDqjKCTnOWHAziu6OiMkzJArujojJMyShxmTVM4NjFaTjJXMUdmeXZpNUpDY2JsNVEvQW89Wh8iHbBWSmQ2bW80ZzI3VnFUQU1lblRqSXh5UVJ4VzQ9ZSqaJZ4S7AEIDhLnAQocTW9CUmhUMG5RNnRiMW8remtSeUUxRGhhZ2RzPRJmWjpBRHF0QVp4SFpRNTJmbVJKWXd1TzVrQURrS1lid1NpQmIrajdPNVp2eVhzeWw2VkswTmxvbHVoK0FocUF5UGh3bU9FQXByeitGNEJCYzgrQ0FhOEZPdCtyZXNVUG9NK2c4UT09GAAgASgBMOqMoJOc5YcDOK7o6IyTMkCu6OiMkzJKHENLeXlXQ3FiOWpXVnl2bXlseXBFOUhrbzc2TT1aHyId7HE1UHJSNDRqazBzaDRnK2VVQVpTZ2dCd0dEMD1lfZ9ydhLDAQgDEr4BChxuamdEdTg4ZUNydlhwODZwRDdmSEdjcUZwODg9EmZaOkFEcXRBWnhsUGhHZWZOT1lWRVpFdGdFblpqVlI1WGlyN3poc1Z2RDV6NTZMTGprT3RrR1R0aURoNXd2YWs4a1VDRk1LTXZoSnFkV3B2OVhCek4vbVZEa1BGMFg1Ym1Nc2ZBPT0YACAAKAAw+IjPqYHlhwM4AEAAShx5ek5CMDFjbjU0QTdjUlUwdVQrL1BnbVR0VW89WgBlAAAAABKrAQgBEqYBChx5eEovNmZ2a2VjcjdrcDVFUXpCNHRXTHBkYkU9Ek5aOkFEcXRBWnhrNnNUbjA1RmZqSC83M2tCY2xSNDlpMTYyQ2ZmN1I3TjdZTU0reit4aDFDNlVTUkt0bU9JdjNOZDNrTkJPc1FjYWd0eUYYACAAKAAw+IjPqYHlhwM4AEAAShxhUkNXTGdoRjliNUlucUtJRHZ1Si9qdlFrRmM9WgBlAAAAABLDAQgCEr4BChxZY1NUb252RVNQd3FDczRMMmNyVmh2NjhMOTg9EmZaOkFEcXRBWnhSS25DM3hlZWJQR3hpYjRXQjZ6Q3MrNThLK01RWlJRbmNsNVh1L1h5dmNObEw1cFhDZ3dZNlczZjM4SWxaelZnalUrT3JWOXphZWVEVHVaU1NNVEEydUVoc1VnPT0YACAAKAAw+IjPqYHlhwM4AEAAShxvUFZraHdCUmJWNjVLQ1dSMitJT05IV29PdTg9WgBlAAAAADABOAA=",
+   "version": 1
+}
