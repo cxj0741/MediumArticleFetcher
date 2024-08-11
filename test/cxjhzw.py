@@ -15,7 +15,7 @@ def run(keyword=None, refresh=False):
         page.goto("https://medium.com/")
 
         likes_locator = page.locator(
-            ' #root > div > div.s.c > div.bz.gr.gs.gt > div.gw.gx.gy.gz.ha.hb.hc.hd.af.he.hf.hg.hh.hi.hj.n.bz > div')
+            ' #root > div > div.l.n.s > div.ar.as.n.s.at.au.av > div.di.m.as.n.o.p.au > div > div.do.dp.dq.dr.ds.dt.bo > span > h2')
         print(likes_locator.inner_text())
         browser.close()
 
