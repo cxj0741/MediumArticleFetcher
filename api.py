@@ -5,6 +5,8 @@ from playwright.async_api import async_playwright
 import asyncio
 import logging
 
+from logger_config import logger
+
 app = FastAPI()
 
 # CORS配置
@@ -115,5 +117,5 @@ async def get_status():
 if __name__ == '__main__':
     import uvicorn
 
-    logging.basicConfig(level=logging.INFO)
+    logger.info("开始记录日志")
     uvicorn.run(app, host="0.0.0.0", port=5000, log_level="info")

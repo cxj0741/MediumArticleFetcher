@@ -78,7 +78,7 @@ async def scroll_to_bottom(page: Page):
     html_str = ''
     while True:
         await page.mouse.wheel(0, const_config.SCROLL_DISTANCE)
-        await page.wait_for_timeout(10)
+        await page.wait_for_timeout(1000)
         elements = await page.query_selector_all(const_config.SELECTOR)
         logger.info(f"正在进行第{i + 1}次滑动，共找到 {len(elements)} 条数据")
         i += 1
