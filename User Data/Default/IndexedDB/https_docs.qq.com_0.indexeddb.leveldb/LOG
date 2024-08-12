@@ -1,0 +1,17 @@
+2024/08/05-15:27:32.946 3fa8 Creating DB C:\Users\86157\AppData\Local\Google\Chrome\User Data\Default\IndexedDB\https_docs.qq.com_0.indexeddb.leveldb since it was missing.
+2024/08/05-15:27:32.966 3fa8 Reusing MANIFEST C:\Users\86157\AppData\Local\Google\Chrome\User Data\Default\IndexedDB\https_docs.qq.com_0.indexeddb.leveldb/MANIFEST-000001
+2024/08/05-15:27:41.235 4290 Level-0 table #5: started
+2024/08/05-15:27:41.245 4290 Level-0 table #5: 29214 bytes OK
+2024/08/05-15:27:41.248 4290 Delete type=0 #3
+2024/08/05-15:27:41.249 41c0 Manual compaction at level-0 from '\x00\x03\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x04\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/08/05-15:27:41.251 41c0 Level-0 table #7: started
+2024/08/05-15:27:41.412 41c0 Level-0 table #7: 657 bytes OK
+2024/08/05-15:27:41.416 41c0 Delete type=0 #4
+2024/08/05-15:27:41.417 3fa8 Manual compaction at level-0 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)
+2024/08/05-15:27:41.417 3fa8 Manual compaction at level-1 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at '\x00\x05\x00\x00d\x0a"\x03' @ 1883 : 1
+2024/08/05-15:27:41.417 3fa8 Compacting 1@1 + 1@2 files
+2024/08/05-15:27:41.422 3fa8 Generated table #8@1: 672 keys, 14329 bytes
+2024/08/05-15:27:41.422 3fa8 Compacted 1@1 + 1@2 files => 14329 bytes
+2024/08/05-15:27:41.424 3fa8 compacted to: files[ 0 0 1 0 0 0 0 ]
+2024/08/05-15:27:41.425 3fa8 Delete type=2 #7
+2024/08/05-15:27:41.425 3fa8 Manual compaction at level-1 from '\x00\x05\x00\x00d\x0a"\x03' @ 1883 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)
