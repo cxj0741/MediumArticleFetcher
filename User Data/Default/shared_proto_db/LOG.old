@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-2024/08/12-13:52:14.396 4814 Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\shared_proto_db/MANIFEST-000001
-2024/08/12-13:52:14.404 4814 Recovering log #16
-2024/08/12-13:52:14.406 4814 Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\shared_proto_db/000016.log 
-=======
-2024/08/12-12:53:59.799 45b0 Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\shared_proto_db/MANIFEST-000001
-2024/08/12-12:53:59.800 45b0 Recovering log #16
-2024/08/12-12:53:59.802 45b0 Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\shared_proto_db/000016.log 
->>>>>>> f671753149867839b2b33ae2e79549c507503b20
+2024/08/12-14:51:34.999 2f34 Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\shared_proto_db/MANIFEST-000001
+2024/08/12-14:51:35.000 2f34 Recovering log #16
+2024/08/12-14:51:35.002 2f34 Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\shared_proto_db/000016.log 

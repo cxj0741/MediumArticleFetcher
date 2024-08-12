@@ -1,26 +1,3 @@
-2024/08/12-14:51:35.062 25d4 Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/MANIFEST-000001
-2024/08/12-14:51:35.066 25d4 Recovering log #3126
-2024/08/12-14:51:35.066 25d4 Level-0 table #3129: started
-2024/08/12-14:51:35.083 25d4 Level-0 table #3129: 17541 bytes OK
-2024/08/12-14:51:35.083 25d4 Recovering log #3129
-2024/08/12-14:51:35.093 25d4 Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/003129.log 
-2024/08/12-14:51:35.117 25d4 Delete type=0 #3126
-2024/08/12-14:51:35.117 4ad0 Compacting 4@0 + 6@1 files
-2024/08/12-14:51:35.193 4ad0 Generated table #3130@0: 5011 keys, 2150283 bytes
-2024/08/12-14:51:35.252 4ad0 Generated table #3131@0: 3157 keys, 2204977 bytes
-2024/08/12-14:51:35.299 4ad0 Generated table #3132@0: 14896 keys, 2102708 bytes
-2024/08/12-14:51:35.343 4ad0 Generated table #3133@0: 44560 keys, 2172391 bytes
-2024/08/12-14:51:35.365 4ad0 Generated table #3134@0: 950 keys, 1171958 bytes
-2024/08/12-14:51:35.377 4ad0 Generated table #3135@0: 4422 keys, 269113 bytes
-2024/08/12-14:51:35.377 4ad0 Compacted 4@0 + 6@1 files => 10071430 bytes
-2024/08/12-14:51:35.378 4ad0 compacted to: files[ 0 7 19 0 0 0 0 ]
-2024/08/12-14:51:35.380 4ad0 Delete type=2 #3115
-2024/08/12-14:51:35.380 4ad0 Delete type=2 #3116
-2024/08/12-14:51:35.380 4ad0 Delete type=2 #3117
-2024/08/12-14:51:35.380 4ad0 Delete type=2 #3118
-2024/08/12-14:51:35.380 4ad0 Delete type=2 #3119
-2024/08/12-14:51:35.380 4ad0 Delete type=2 #3120
-2024/08/12-14:51:35.380 4ad0 Delete type=2 #3123
-2024/08/12-14:51:35.380 4ad0 Delete type=2 #3125
-2024/08/12-14:51:35.380 4ad0 Delete type=2 #3127
-2024/08/12-14:51:35.380 4ad0 Delete type=2 #3129
+2024/08/12-14:53:35.382 4484 Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/MANIFEST-000001
+2024/08/12-14:53:35.434 4484 Recovering log #3129
+2024/08/12-14:53:35.444 4484 Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\Local Storage\leveldb/003129.log 
