@@ -1,6 +1,8 @@
 import asyncio
 import os
 from concurrent.futures import ThreadPoolExecutor
+from random import random
+
 from playwright.async_api import Page, async_playwright
 import uuid
 import pdfkit
@@ -11,6 +13,54 @@ from mongodb_config import insert_articles_batch
 import global_exception_handler
 
 article_data_list = []
+
+
+async def simulate_mouse_movement(page: Page):
+    # 获取页面的宽度和高度
+    viewport_size = await page.evaluate('''() => {
+        return { width: window.innerWidth, height: window.innerHeight };
+    }''')
+
+    width = viewport_size['width']
+    height = viewport_size['height']
+
+    # 随机移动鼠标
+    for _ in range(random.randint(5, 10)):  # 随机滑动次数
+        x = random.randint(0, width)
+        y = random.randint(0, height)
+        await page.mouse.move(x, y)
+        await asyncio.sleep(random.uniform(1, 3))  # 随机停顿时间
+
+
+async def handle_captcha(page: Page):
+    try:
+        # 等待页面完全加载
+        await page.wait_for_load_state('networkidle', timeout=10000)  # 等待页面在10秒内完全加载
+
+        # 尝试点击页面中的指定元素以触发验证码
+        element_to_click = await page.query_selector('body > div.main-wrapper > div > h1')
+        if element_to_click:
+            logger.info("尝试点击页面中的元素以触发验证码")
+            await element_to_click.click()  # 模拟点击 h1 元素
+            await page.wait_for_timeout(2000)  # 等待2秒，看看验证码是否出现
+        else:
+            logger.info("未找到指定的元素")
+
+        # 等待验证码复选框出现
+        captcha_checkbox = await page.wait_for_selector('input[type="checkbox"]', timeout=30000)  # 等待最多10秒
+        if captcha_checkbox:
+            logger.info("验证码页面已出现，正在尝试通过验证")
+
+            # 点击验证码复选框
+            await captcha_checkbox.click()
+            await page.wait_for_load_state('networkidle')  # 等待页面重新加载
+            logger.info("验证通过")
+        else:
+            logger.info("未检测到验证码页面")
+    except Exception as e:
+        logger.error(f"处理验证码时出错: {e}")
+
+
 
 # 将 Playwright 实例创建在全局
 async def main():
@@ -23,12 +73,12 @@ async def create_soup(page_content):
 
 async def scroll_to_bottom(page: Page):
     await page.wait_for_selector('#root > div > div> div> div > div > button > div > div > div')
-    await page.wait_for_timeout(5000)
+    await page.wait_for_timeout(2000)
     i = 1
     html_str = ''
     while True:
         await page.mouse.wheel(0, const_config.SCROLL_DISTANCE)
-        await page.wait_for_timeout(1000)
+        await page.wait_for_timeout(10)
         elements = await page.query_selector_all(const_config.SELECTOR)
         logger.info(f"正在进行第{i + 1}次滑动，共找到 {len(elements)} 条数据")
         i += 1
@@ -144,44 +194,62 @@ async def scrape_article_content_and_images(url, context):
             article_data['images'] = images
 
         new_url = remove_prefix(url)
-        await page.goto(new_url, timeout=1200000)  # 设置页面加载超时时间
-        # print("到达新页面")
-        # await check_page_status(page)
+        max_attempts =1  # 最大尝试次数
+        attempt = 0  # 当前尝试次数
 
-        try:
-            author_locator = page.get_by_test_id("authorName")
-            article_data['author'] = await author_locator.inner_text()
-        except:
-            article_data['author'] = article_data.get('author', None)
+        while attempt < max_attempts:
+            try:
+                await page.goto(new_url, timeout=1200000)  # 设置页面加载超时时间
+                await page.wait_for_timeout(2000)  # 等待2秒
 
-        try:
-            comments_locator = page.locator("section").get_by_label("responses")
-            article_data['comments'] = await comments_locator.inner_text()
-        except:
-            article_data['comments'] = article_data.get('comments', None)
-        try:
-            likes_locator = page.locator(
-                ' #root > div > div > div > div > article > div > div > section > div > div>div>div>div>div>div>div>div>div>div>div>div div > div > p > button ')
-            article_data['likes'] = await likes_locator.inner_text()
-        except:
-            article_data['likes'] = article_data.get('likes', None)
+                # 尝试获取作者信息
+                try:
+                    author_locator = page.get_by_test_id("authorName")
+                    article_data['author'] = await author_locator.inner_text()
+                    if not article_data['author']:
+                        raise ValueError("作者信息为空")
+                except Exception as e:
+                    logger.error(f"获取作者信息失败: {e}")
+                    article_data['author'] = None
+                    await page.reload()  # 重新加载页面
+                    attempt += 1
+                    continue  # 重新开始循环
 
-        logger.info(f'作者: {article_data["author"]}')
-        logger.info(f'评论数量: {article_data["comments"]}')
-        logger.info(f'点赞量: {article_data["likes"]}')
+                # 尝试获取评论数量
+                try:
+                    comments_locator = page.locator("section").get_by_label("responses")
+                    article_data['comments'] = await comments_locator.inner_text()
+                except:
+                    article_data['comments'] = None
 
-        article_data_list.append(article_data)
-        logger.info(f"这次生成的数据为{article_data}")
-    #
-    except Exception as e:
-        # 检查并填充缺失的数据
-        article_data['content'] = article_data.get('content', None)
-        article_data['images'] = article_data.get('images', None)
-        article_data['author'] = article_data.get('author', None)
-        article_data['comments'] = article_data.get('comments', None)
-        article_data['likes'] = article_data.get('likes', None)
-        logger.error(f"警告!!!这次生成的数据为{article_data},文章无法生成结构化数据{url}:{e}")
-        article_data_list.append(article_data)
+                # 尝试获取点赞量
+                try:
+                    likes_locator = page.locator(
+                        '#root > div > div > div > div > article > div > div > section > div > div>div>div>div>div>div>div>div>div>div>div>div div > div > p > button '
+                    )
+                    article_data['likes'] = await likes_locator.inner_text()
+                except:
+                    article_data['likes'] = None
+
+                logger.info(f'作者: {article_data["author"]}')
+                logger.info(f'评论数量: {article_data["comments"]}')
+                logger.info(f'点赞量: {article_data["likes"]}')
+
+                if article_data['author']:
+                    article_data_list.append(article_data)
+                    logger.info(f"这次生成的数据为{article_data}")
+                    break  # 成功获取作者信息，退出循环
+                else:
+                    logger.info(f"未能获取到作者信息，第 {attempt + 1} 次重试")
+                    attempt += 1
+
+            except Exception as e:
+                logger.error(f"在尝试获取文章内容和图片时出错: {e}")
+                attempt += 1
+
+        if attempt == max_attempts:
+            logger.error(f"多次尝试后仍未能获取到有效的作者信息，放弃该页面 {url}")
+
 
     finally:
         if page:
