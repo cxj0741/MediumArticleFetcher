@@ -261,19 +261,18 @@ async def scrape_article_content_and_images(url, context):
 
 async def run(playwright, keyword=None, refresh=False):
     # user_data_dir=os.path.abspath('./User Data')
-    user_data_dir = '/home/ubuntu/MediumArticleFetcher/User Data'
+    # user_data_dir = '/home/ubuntu/MediumArticleFetcher/User Data'
     try:
-        context = await playwright.chromium.launch_persistent_context(
-            user_data_dir=user_data_dir,
-            # user_data_dir=r'C:\Users\86157\AppData\Local\Google\Chrome\User Data',
-            # user_data_dir=r'D:\pythonProject\MediumArticleFetcher\User Data',
-            # user_data_dir=r'./User Data', user_data_dir=r'D:\pythonProject\MediumArticleFetcher\User Data',
-            # user_data_dir=r'./User Data',
-            headless=False,
-            viewport={"width": 1280, "height": 720}
+        # 启动一个浏览器实例
+        browser = await playwright.chromium.launch(headless=False)
+
+        # 创建一个新的浏览器上下文，并使用 'state.json' 文件加载存储状态，设置窗口大小
+        context = await browser.new_context(
+            storage_state='state.json',
+            viewport={'width': 1280, 'height': 720}  # 设置浏览器窗口大小
         )
         print("看看能否ok")
-        logger.info(user_data_dir)
+        # logger.info(user_data_dir)
         # print(f"User data directory: {os.path.abspath('./User Data')}")
         page = await context.new_page()
         await page.goto("https://medium.com/")
@@ -311,7 +310,7 @@ async def run(playwright, keyword=None, refresh=False):
     finally:
         # 在所有任务完成后再关闭 context
         await context.close()
-        insert_articles_batch(article_data_list)
+        # insert_articles_batch(article_data_list)
         logger.info("本次抓取结束")
 
 
