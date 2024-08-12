@@ -1,3 +1,6 @@
-2024/08/12-12:53:59.827 4b54 Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\Session Storage/MANIFEST-000001
-2024/08/12-12:53:59.829 4b54 Recovering log #357
-2024/08/12-12:53:59.836 4b54 Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\Session Storage/000357.log 
+2024/08/12-13:52:14.645 3954 Reusing MANIFEST D:\pythonProject\MediumArticleFetcher\User Data\Default\Session Storage/MANIFEST-000001
+2024/08/12-13:52:14.666 3954 Recovering log #357
+2024/08/12-13:52:14.681 3954 Reusing old log D:\pythonProject\MediumArticleFetcher\User Data\Default\Session Storage/000357.log 
+2024/08/12-13:52:50.969 1604 Level-0 table #361: started
+2024/08/12-13:52:50.978 1604 Level-0 table #361: 15917 bytes OK
+2024/08/12-13:52:50.980 1604 Delete type=0 #357

@@ -161,4 +161,9 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# 忽略 User Data/Default/Cache 文件夹
+User Data/Default/Cache/
+
+# 忽略 User Data/Default/Code Cache 文件夹
+User Data/Default/Code Cache/
 
