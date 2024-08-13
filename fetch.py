@@ -84,7 +84,7 @@ async def scroll_to_bottom(page: Page):
         i += 1
         if len(elements) >= const_config.MAX_ELEMENTS:
             break
-        if i>10000:
+        if i>500:
             break
     for index, element in enumerate(elements[:const_config.MAX_ELEMENTS], start=1):
         parent_html = await element.evaluate('(element) => element.parentElement.outerHTML')
@@ -204,7 +204,7 @@ async def scrape_article_content_and_images(url, context):
 
                 # 尝试获取作者信息
                 try:
-                    author_locator = page.get_by_test_id("authorName")
+                    author_locator =  page.get_by_test_id("authorName")
                     article_data['author'] = await author_locator.inner_text()
                     if not article_data['author']:
                         raise ValueError("作者信息为空")
@@ -217,14 +217,14 @@ async def scrape_article_content_and_images(url, context):
 
                 # 尝试获取评论数量
                 try:
-                    comments_locator = page.locator("section").get_by_label("responses")
+                    comments_locator =  page.locator("section").get_by_label("responses")
                     article_data['comments'] = await comments_locator.inner_text()
                 except:
                     article_data['comments'] = None
 
                 # 尝试获取点赞量
                 try:
-                    likes_locator = page.locator(
+                    likes_locator =  page.locator(
                         '#root > div > div > div > div > article > div > div > section > div > div>div>div>div>div>div>div>div>div>div>div>div div > div > p > button '
                     )
                     article_data['likes'] = await likes_locator.inner_text()
@@ -247,8 +247,8 @@ async def scrape_article_content_and_images(url, context):
                 logger.error(f"在尝试获取文章内容和图片时出错: {e}")
                 attempt += 1
 
-        if attempt == max_attempts:
-            logger.error(f"多次尝试后仍未能获取到有效的作者信息，放弃该页面 {url}")
+        # if attempt == max_attempts:
+        #     logger.error(f"多次尝试后仍未能获取到有效的作者信息，放弃该页面 {url}")
 
 
     finally:
@@ -260,11 +260,16 @@ async def scrape_article_content_and_images(url, context):
 
 
 async def run(playwright, keyword=None, refresh=False):
+    api_key = '14476adbcfdb04ef25e06ba090ae70b5'
+    proxy_url = f'http://api.scraperapi.com?api_key={api_key}&render=true'
     # user_data_dir=os.path.abspath('./User Data')
     # user_data_dir = '/home/ubuntu/MediumArticleFetcher/User Data'
     try:
         # 启动一个浏览器实例
-        browser = await playwright.chromium.launch(headless=False)
+        browser = await playwright.chromium.launch(
+            headless=False
+            # proxy={"server": proxy_url}
+        )
 
         # 创建一个新的浏览器上下文，并使用 'state.json' 文件加载存储状态，设置窗口大小
         context = await browser.new_context(
