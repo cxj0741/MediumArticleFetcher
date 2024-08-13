@@ -310,7 +310,7 @@ async def run(playwright, keyword=None, refresh=False):
     finally:
         # 在所有任务完成后再关闭 context
         await context.close()
-        # insert_articles_batch(article_data_list)
+        insert_articles_batch(article_data_list)
         logger.info("本次抓取结束")
 
 
