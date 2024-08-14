@@ -1,49 +1,70 @@
-from playwright.async_api import async_playwright
+import json
+import re
+
+import requests
+from bs4 import BeautifulSoup
+
+username = 'cxjhzw_2MZmd'
+password = 'Lsm666666666+'
+proxy = 'dc.oxylabs.io:8000'  # 8000端口用于轮换代理
+
+proxies = {
+    "https": f'https://user-{username}:{password}@{proxy}'
+}
+# 目标URL，访问百度首页
+target_url = "https://medium.com/signifier/blue-mountains-blue-riders-74fc72425423"
+
+response = requests.get(target_url, proxies=proxies)
+response.raise_for_status()  # 检查是否请求成功
+
+soup = BeautifulSoup(response.content, 'html.parser')
+author_locator = soup.select_one('[data-testid="authorName"]')
+print(author_locator.get_text(strip=True))
 
 
-async def run(playwright):
-    proxy_host = 'brd.superproxy.io:22225'
-    proxy_username = 'BRD 客户hl_300d3c5c区域datacenter_proxy1'
-    proxy_password = 'O43W4OHMUUZG'
+# 找到包含 clapCount 的 <script> 标签
+script_tag = soup.find('script', string=lambda t: 'clapCount' in t)
 
-    proxy_url = f'http://{proxy_username}:{proxy_password}@{proxy_host}'
+if script_tag:
+    # 提取脚本内容
+    script_content = script_tag.string.strip()
 
+    # 尝试解析为 JSON
     try:
-        # 启动浏览器实例，使用代理
-        browser = await playwright.chromium.launch(
-            headless=False,
-            proxy={"server": proxy_url}
-        )
+        # 提取 <script> 标签中的文本内容
+        script_content = script_tag.string
 
-        # 创建新的浏览器上下文
-        context = await browser.new_context(
-            viewport={'width': 1280, 'height': 720}
-        )
+        # 使用正则表达式直接提取 clapCount 的值
+        match = re.search(r'"clapCount":(\d+)', script_content)
+        if match:
+            clap_count = match.group(1)
+            # print(f'Clap Count: {clap_count}')
+            print(f'{clap_count}')
+        else:
+            print('未找到 clapCount 数据')
+    except json.JSONDecodeError:
+        print("无法解析 JSON 数据")
 
-        # 创建新页面并访问目标网站
-        page = await context.new_page()
+else:
+    print("未找到包含 clapCount 的脚本标签")
+# 查找包含 'postResponses' 的 <script> 标签
+script_tag = soup.find('script', string=lambda t: 'postResponses' in t)
 
-        # 设置超时
-        try:
-            await page.goto('https://medium.com/', timeout=60000)  # 增加超时设置
-        except Exception as e:
-            print(f"Navigation Error: {e}")
+if script_tag:
+    # 提取脚本内容
+    script_content = script_tag.string.strip()
 
-        # 打印页面标题
-        print(await page.title())
-
-        # 关闭浏览器
-        await browser.close()
-
+    # 尝试解析为 JSON
+    try:
+        # 使用正则表达式直接提取 postResponses 的 count 值
+        match = re.search(r'"postResponses":\{"__typename":"PostResponses","count":(\d+)\}', script_content)
+        if match:
+            count = match.group(1)
+            # print(f'Comment Count: {count}')
+            print(f'{count}')
+        else:
+            print('未找到 postResponses count')
     except Exception as e:
-        print(f"An error occurred: {e}")
-
-
-async def main():
-    async with async_playwright() as playwright:
-        await run(playwright)
-
-
-import asyncio
-
-asyncio.run(main())
+        print(f'解析失败: {e}')
+else:
+    print("未找到包含 'postResponses' 的脚本标签")

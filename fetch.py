@@ -9,7 +9,7 @@ import pdfkit
 from bs4 import BeautifulSoup
 import const_config
 from logger_config import logger
-from mongodb_config import insert_articles_batch
+# from mongodb_config import insert_articles_batch
 import global_exception_handler
 
 article_data_list = []
@@ -292,7 +292,7 @@ async def run(playwright, keyword=None, refresh=False):
             await page.keyboard.press('Enter')
             await page.wait_for_load_state("load")
             logger.info(f'已输入关键字搜索{keyword}')
-            await page.wait_for_timeout(3000)
+            # await page.wait_for_timeout(3000)
         else:
             await page.reload()
             await page.wait_for_load_state("load")
@@ -315,7 +315,7 @@ async def run(playwright, keyword=None, refresh=False):
     finally:
         # 在所有任务完成后再关闭 context
         await context.close()
-        insert_articles_batch(article_data_list)
+        # insert_articles_batch(article_data_list)
         logger.info("本次抓取结束")
 
 
