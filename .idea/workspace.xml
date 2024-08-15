@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0679deb-92da-4208-bd5a-4fb683a76976" name="Changes" comment="修改参数">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fetch.py" beforeDir="false" afterPath="$PROJECT_DIR$/fetch.py" afterDir="false" />
-    </list>
+    <list default="true" id="e0679deb-92da-4208-bd5a-4fb683a76976" name="Changes" comment="修改参数" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -404,7 +401,7 @@
       <workItem from="1723541567189" duration="14287000" />
       <workItem from="1723595229372" duration="52433000" />
       <workItem from="1723682460287" duration="5452000" />
-      <workItem from="1723688452750" duration="822000" />
+      <workItem from="1723688452750" duration="1385000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
