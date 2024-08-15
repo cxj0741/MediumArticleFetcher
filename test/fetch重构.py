@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 import const_config
 from logger_config import logger
 import global_exception_handler
-# from mongodb_config import insert_articles_batch
+from mongodb_config import insert_articles_batch
 
 article_data_list = []
 
@@ -24,10 +24,11 @@ async def main():
 
             try:
                 await asyncio.gather(*content_tasks)
-                print(f"一共插入了{len(article_data_list)}条数据")
+                # print(f"一共插入了{len(article_data_list)}条数据")
+                insert_articles_batch(article_data_list)
             except (httpx.RequestError, httpx.HTTPStatusError) as e:
-                print(f"在 gather 中发生错误: {e}")
-
+                # print(f"在 gather 中发生错误: {e}")
+                logger.info(f"在 gather 中发生错误: {e}")
 
 async def create_soup(page_content):
     soup = BeautifulSoup(page_content, 'lxml')
@@ -182,12 +183,13 @@ async def scrape_article_content_and_images(url: str):
 
                 else:
                     article_data['images'] = None
+                    article_data['content'] = None
                     logger.info("没有找到文章")
             article_data_list.append(article_data)
         except httpx.ConnectError as e:
             logger.error(f"连接错误: {e}")
             article_data['error'] = f"连接错误: {e}"
-    except:
+    except httpx.ConnectError as e:
         logger.error(f"连接错误: {e}")
     # article_data_list.append(article_data)
 

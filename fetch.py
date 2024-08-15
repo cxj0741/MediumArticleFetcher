@@ -1,71 +1,34 @@
 import asyncio
-import os
-from concurrent.futures import ThreadPoolExecutor
-from random import random
-
+import re
+import random
+import httpx
 from playwright.async_api import Page, async_playwright
-import uuid
-import pdfkit
 from bs4 import BeautifulSoup
 import const_config
 from logger_config import logger
-# from mongodb_config import insert_articles_batch
 import global_exception_handler
+from mongodb_config import insert_articles_batch
 
 article_data_list = []
-
-
-async def simulate_mouse_movement(page: Page):
-    # 获取页面的宽度和高度
-    viewport_size = await page.evaluate('''() => {
-        return { width: window.innerWidth, height: window.innerHeight };
-    }''')
-
-    width = viewport_size['width']
-    height = viewport_size['height']
-
-    # 随机移动鼠标
-    for _ in range(random.randint(5, 10)):  # 随机滑动次数
-        x = random.randint(0, width)
-        y = random.randint(0, height)
-        await page.mouse.move(x, y)
-        await asyncio.sleep(random.uniform(1, 3))  # 随机停顿时间
-
-
-async def handle_captcha(page: Page):
-    try:
-        # 等待页面完全加载
-        await page.wait_for_load_state('networkidle', timeout=10000)  # 等待页面在10秒内完全加载
-
-        # 尝试点击页面中的指定元素以触发验证码
-        element_to_click = await page.query_selector('body > div.main-wrapper > div > h1')
-        if element_to_click:
-            logger.info("尝试点击页面中的元素以触发验证码")
-            await element_to_click.click()  # 模拟点击 h1 元素
-            await page.wait_for_timeout(2000)  # 等待2秒，看看验证码是否出现
-        else:
-            logger.info("未找到指定的元素")
-
-        # 等待验证码复选框出现
-        captcha_checkbox = await page.wait_for_selector('input[type="checkbox"]', timeout=30000)  # 等待最多10秒
-        if captcha_checkbox:
-            logger.info("验证码页面已出现，正在尝试通过验证")
-
-            # 点击验证码复选框
-            await captcha_checkbox.click()
-            await page.wait_for_load_state('networkidle')  # 等待页面重新加载
-            logger.info("验证通过")
-        else:
-            logger.info("未检测到验证码页面")
-    except Exception as e:
-        logger.error(f"处理验证码时出错: {e}")
-
-
 
 # 将 Playwright 实例创建在全局
 async def main():
     async with async_playwright() as playwright:
-        await run(playwright)
+        urls = await run(playwright)
+        batch_size = 10
+        for i in range(0, len(urls), batch_size):
+            batch_urls = urls[i:i + batch_size]
+            article_data_list.clear()
+            content_tasks = [scrape_article_content_and_images(url) for url in batch_urls]
+
+            try:
+                results = await asyncio.gather(*content_tasks, return_exceptions=True)
+                for result in results:
+                    if isinstance(result, Exception):
+                        logger.error(f"任务执行中发生错误: {result}")
+                insert_articles_batch(article_data_list)
+            except Exception as e:
+                logger.error(f"在 gather 中发生未捕获的错误: {e}")
 
 async def create_soup(page_content):
     soup = BeautifulSoup(page_content, 'lxml')
@@ -84,7 +47,7 @@ async def scroll_to_bottom(page: Page):
         i += 1
         if len(elements) >= const_config.MAX_ELEMENTS:
             break
-        if i>500:
+        if i > 500:
             break
     for index, element in enumerate(elements[:const_config.MAX_ELEMENTS], start=1):
         parent_html = await element.evaluate('(element) => element.parentElement.outerHTML')
@@ -99,225 +62,153 @@ def get_urls(soup):
     for a in find_all:
         href = a.get('href')
         if href is not None:
+            href = const_config.BASE_URL + href
             logger.info(f'获取到的链接为{href}')
-            new_href = const_config.FREE_URL_PREFIX + const_config.BASE_URL + href
-            logger.info(f'拼接后到的链接为{new_href}')
-            list_urls.append(new_href)
+            list_urls.append(href)
     return list_urls
 
-def sync_pdfkit_from_url(url, output_path, config):
-    # try:
-    #     pdfkit.from_url(url, output_path, configuration=config)
-    #     logger.info(f'PDF文件已保存到: {output_path}')
-    # except Exception as e:
-    #     logger.error(f'未能成功，失败的{url}为: {e}')
-    #     raise
-    pass
-
-def remove_prefix(url, prefix="https://freedium.cfd/"):
-    return url[len(prefix):] if url.startswith(prefix) else url
-
-async def by_url_get_content(url: str, semaphore):
-    async with semaphore:
-        path_to_wkhtmltopdf = r'D:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
-        id = uuid.uuid4()
-        output_path = f'D:\\articles\\article_{id}.pdf'
-        config = pdfkit.configuration(wkhtmltopdf=path_to_wkhtmltopdf)
-
-        loop = asyncio.get_event_loop()
-        retry_attempts = 3
-        for attempt in range(retry_attempts):
-            try:
-                with ThreadPoolExecutor() as pool:
-                    await loop.run_in_executor(pool, sync_pdfkit_from_url, url, output_path, config)
-                break
-            except Exception as e:
-                if attempt < retry_attempts :
-                    logger.error(f'生成pdf失败,这是第 {attempt + 1}次失败，将继续重试: {e}')
-                    await asyncio.sleep(2)  # Wait before retrying
-                else:
-                    logger.error(f'生成pdf失败,重试达到上限，失败的URL为 {url}: {e}')
-
-async def reload_page(page: Page):
+async def scrape_article_content_and_images(url: str):
     try:
-        await page.reload()
-        await page.wait_for_load_state('networkidle')  # 等待页面完全加载
-        logger.info('页面重新加载成功')
-    except Exception as e:
-        logger.error(f'重新加载页面时出错: {e}')
-async def check_page_status(page: Page):
-    try:
-        element = await page.query_selector('heml')
-        if element is None:
-            logger.error('页面元素丢失，可能需要重新加载')
-            await reload_page(page)
-            # 进行重新加载或其他处理
-    except Exception as e:
-        logger.error(f'检查页面状态时出错: {e}')
-
-
-async def scrape_article_content_and_images(url, context):
-    page=None
-    article_data = {'url': url}
-
-    try:
-        page = await context.new_page()
-        await page.goto(url, timeout=1200000)  # 设置页面加载超时时间
-        print("到达页面")
-        # await page.wait_for_load_state('networkidle')  # 等待网络空闲
-        # await reload_page(page)
-
+        article_data = {'url': url}
+        proxies = {
+            'https://': "https://customer-cxjhzw_DBcRk-cc-us:Lsm666666666+@pr.oxylabs.io:7777"
+        }
 
         try:
-            content = page.locator(
-                r'body > div.container.w-full.md\:max-w-3xl.mx-auto.pt-20.break-words.text-gray-900.dark\:text-gray-200.bg-white.dark\:bg-gray-800 > div.w-full.px-4.md\:px-6.text-xl.text-gray-800.dark\:text-gray-100.leading-normal > div.main-content.mt-8')
-            text = await content.inner_text()
-            article_data['content'] = text
-        except:
-            article_data['content'] = article_data.get('content', None)
-        logger.info(f'文章内容: {text[:5]}...')  # 只记录前100个字符
+            async with httpx.AsyncClient(timeout=120, follow_redirects=True, proxies=proxies) as client:
+                attempt = 0
+                max_retries = 5
+                while attempt < max_retries:
+                    try:
+                        response = await client.get(url)
+                        response.raise_for_status()  # 处理HTTP错误
+                        content = response.text
+                        logger.info("请求成功")
+                        break
+                    except httpx.RequestError as e:
+                        attempt += 1
+                        logger.info(f"请求失败: {e}. 尝试 {attempt}/{max_retries}...")
+                        if attempt >= max_retries:
+                            logger.error("达到最大重试次数，放弃请求。")
+                            raise
+                        delay = random.uniform(1, 3)
+                        await asyncio.sleep(delay)  # 延迟重试
+                soup = BeautifulSoup(content, 'html.parser')
 
-        img_element = await page.query_selector('.main-content img')
-        if img_element is None:
-            logger.info('没有找到 img 元素')
-            article_data['images'] = []
-        else:
-            imgs = page.locator('.main-content img')
-            img_count = await imgs.count()
-            images = []
-            for i in range(img_count):
-                img_element = imgs.nth(i)
-                src = await img_element.get_attribute('src')
-                if not src:
-                    src = await img_element.get_attribute('data-src')
-                images.append(src)
-            article_data['images'] = images
-
-        new_url = remove_prefix(url)
-        max_attempts =1  # 最大尝试次数
-        attempt = 0  # 当前尝试次数
-
-        while attempt < max_attempts:
-            try:
-                await page.goto(new_url, timeout=1200000)  # 设置页面加载超时时间
-                await page.wait_for_timeout(2000)  # 等待2秒
-
-                # 尝试获取作者信息
-                try:
-                    author_locator =  page.get_by_test_id("authorName")
-                    article_data['author'] = await author_locator.inner_text()
-                    if not article_data['author']:
-                        raise ValueError("作者信息为空")
-                except Exception as e:
-                    logger.error(f"获取作者信息失败: {e}")
-                    article_data['author'] = None
-                    await page.reload()  # 重新加载页面
-                    attempt += 1
-                    continue  # 重新开始循环
-
-                # 尝试获取评论数量
-                try:
-                    comments_locator =  page.locator("section").get_by_label("responses")
-                    article_data['comments'] = await comments_locator.inner_text()
-                except:
-                    article_data['comments'] = None
-
-                # 尝试获取点赞量
-                try:
-                    likes_locator =  page.locator(
-                        '#root > div > div > div > div > article > div > div > section > div > div>div>div>div>div>div>div>div>div>div>div>div div > div > p > button '
-                    )
-                    article_data['likes'] = await likes_locator.inner_text()
-                except:
-                    article_data['likes'] = None
-
-                logger.info(f'作者: {article_data["author"]}')
-                logger.info(f'评论数量: {article_data["comments"]}')
-                logger.info(f'点赞量: {article_data["likes"]}')
-
-                if article_data['author']:
-                    article_data_list.append(article_data)
-                    logger.info(f"这次生成的数据为{article_data}")
-                    break  # 成功获取作者信息，退出循环
+                # Extract author info
+                author_locator = soup.select_one('[data-testid="authorName"]')
+                author = None
+                if author_locator:
+                    author = author_locator.get_text(strip=True)
+                    article_data['author'] = author
+                    logger.info(f"作者信息为：{author}")
                 else:
-                    logger.info(f"未能获取到作者信息，第 {attempt + 1} 次重试")
-                    attempt += 1
+                    raise ValueError("未找到作者信息")
 
-            except Exception as e:
-                logger.error(f"在尝试获取文章内容和图片时出错: {e}")
-                attempt += 1
+                # Extract clapCount
+                script_tag = soup.find('script', string=lambda t: 'clapCount' in t)
+                if script_tag:
+                    script_content = script_tag.string.strip()
+                    match = re.search(r'"clapCount":(\d+)', script_content)
+                    if match:
+                        clap_count = match.group(1)
+                        logger.info(f"点赞数为：{clap_count}")
+                        article_data['likes'] = clap_count
+                    else:
+                        raise ValueError('未找到 clapCount 数据')
+                else:
+                    raise ValueError("未找到包含 clapCount 的脚本标签")
 
-        # if attempt == max_attempts:
-        #     logger.error(f"多次尝试后仍未能获取到有效的作者信息，放弃该页面 {url}")
+                # Extract postResponses count
+                script_tag = soup.find('script', string=lambda t: 'postResponses' in t)
+                if script_tag:
+                    script_content = script_tag.string.strip()
+                    match = re.search(r'"postResponses":\{"__typename":"PostResponses","count":(\d+)\}', script_content)
+                    if match:
+                        count = match.group(1)
+                        logger.info(f"评论数为：{count}")
+                        article_data['comments'] = count
+                    else:
+                        raise ValueError('未找到 postResponses count')
+                else:
+                    raise ValueError("未找到包含 'postResponses' 的脚本标签")
 
+        except httpx.ConnectError as e:
+            logger.error(f"连接错误: {e}")
+        # 找到最后一个 '/' 的位置
+        last_slash_index = url.rfind('/')
 
-    finally:
-        if page:
-            try:
-                await page.close()
-            except Exception as e:
-                logger.error(f'关闭页面时出错: {e}')
+        # 从最后一个 '/' 开始获取后续的子字符串
+        result = url[last_slash_index:]
+        new_href = const_config.FREE_URL_PREFIX + result
+        # print(f"截取以后的url为{url.lstrip('/')}")
+        logger.info(f'拼接后的链接为{new_href}')
 
+        try:
+            async with httpx.AsyncClient(timeout=300, follow_redirects=True) as client:
+                try:
+                    response = await client.get(new_href)
+                    response.raise_for_status()  # 处理HTTP错误
+                    content = response.text
+                except httpx.RequestError as e:
+                    logger.error(f"请求错误: {e}")
+                    return
+                soup = BeautifulSoup(content, 'html.parser')
+
+                article = soup.find('article')
+                if article:
+                    content = article.get_text(separator='\n', strip=True)
+                    article_data['content'] = content
+
+                    # 获取文章中的图片链接
+                    images = article.find_all('img')
+                    print(images)
+                    img_links = [img.get('src') for img in images]
+                    article_data['images'] = img_links
+                    # print(article_data['images'])
+                else:
+                    article_data['images'] = None
+                    logger.info("没有找到文章")
+
+            article_data_list.append(article_data)
+        except httpx.ConnectError as e:
+            logger.error(f"连接错误: {e}")
+            article_data['error'] = f"连接错误: {e}"
+    except Exception as e:
+        logger.error(f"处理URL {url} 时发生错误: {e}")
 
 async def run(playwright, keyword=None, refresh=False):
-    api_key = '14476adbcfdb04ef25e06ba090ae70b5'
-    proxy_url = f'http://api.scraperapi.com?api_key={api_key}&render=true'
-    # user_data_dir=os.path.abspath('./User Data')
-    # user_data_dir = '/home/ubuntu/MediumArticleFetcher/User Data'
     try:
-        # 启动一个浏览器实例
-        browser = await playwright.chromium.launch(
-            headless=False
-            # proxy={"server": proxy_url}
-        )
-
-        # 创建一个新的浏览器上下文，并使用 'state.json' 文件加载存储状态，设置窗口大小
+        browser = await playwright.chromium.launch(headless=False)
         context = await browser.new_context(
             storage_state='state.json',
-            viewport={'width': 1280, 'height': 720}  # 设置浏览器窗口大小
+            viewport={'width': 1280, 'height': 720}
         )
-        print("看看能否ok")
-        # logger.info(user_data_dir)
-        # print(f"User data directory: {os.path.abspath('./User Data')}")
         page = await context.new_page()
-        await page.goto("https://medium.com/")
-        # 输出整个页面的文本内容
-        # content = await page.content()
-        # print(content)  # 打印页面内容到控制台
-
+        await page.goto("https://medium.com/",timeout=60000)
         await page.wait_for_load_state("load")
         await page.wait_for_timeout(2000)
+
         if keyword is not None:
             await page.fill('[data-testid="headerSearchInput"]', keyword)
             await page.keyboard.press('Enter')
             await page.wait_for_load_state("load")
             logger.info(f'已输入关键字搜索{keyword}')
-            # await page.wait_for_timeout(3000)
         else:
             await page.reload()
             await page.wait_for_load_state("load")
             logger.info("页面已刷新")
-        html_str = await scroll_to_bottom(page)
 
+        html_str = await scroll_to_bottom(page)
         soup = await create_soup(html_str)
         urls = get_urls(soup)
-        # urls = [
-        #     "https://freedium.cfd/https://medium.com/scuzzbucket/a-fly-in-the-wall-4048d0304351?source=explore---------0-110--------------------0b81d643_2feb_4454_a806_3095e9488345-------15",
-        #     "https://freedium.cfd/https://medium.com/whitespectre/beyond-front-end-metrics-harnessing-backend-insights-for-scale-up-success-124f26add48a?source=explore---------1-108--------------------0b81d643_2feb_4454_a806_3095e9488345-------15",
-        #     "https://freedium.cfd/https://medium.com/analysts-corner/define-your-end-goal-with-business-objectives-61b915459bd4?source=explore---------2-108--------------------0b81d643_2feb_4454_a806_3095e9488345-------15",
-        #     "https://freedium.cfd/https://medium.com/imogenes-notebook/how-much-does-the-spinning-3c03316dd9fd?source=explore---------3-108--------------------0b81d643_2feb_4454_a806_3095e9488345-------15"
-        #     # "https://medium.com/the-philosophical-inn/the-spooky-quote-by-bren"
-        # ]
-
-        content_tasks = [scrape_article_content_and_images(url, context) for url in urls]
-        await asyncio.gather(*content_tasks)
-
+    except Exception as e:
+        logger.error(f"浏览器操作时发生错误: {e}")
+        urls = []
     finally:
-        # 在所有任务完成后再关闭 context
         await context.close()
-        # insert_articles_batch(article_data_list)
-        logger.info("本次抓取结束")
-
+        logger.info("浏览器关闭")
+        return urls
 
 if __name__ == "__main__":
     global_exception_handler.GlobalExceptionHandler.setup()
