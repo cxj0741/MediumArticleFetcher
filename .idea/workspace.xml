@@ -54,51 +54,51 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python. main.executor": "Run",
-    "Python.11.executor": "Run",
-    "Python.MongoDB_atlas_test.executor": "Run",
-    "Python.api.executor": "Run",
-    "Python.api测试.executor": "Run",
-    "Python.api测试2.executor": "Run",
-    "Python.cxjhzw.executor": "Run",
-    "Python.fetch.executor": "Run",
-    "Python.fetch重构.executor": "Run",
-    "Python.get_state.executor": "Run",
-    "Python.httpx的代理测试.executor": "Run",
-    "Python.local_mongodb_test.executor": "Run",
-    "Python.mongoda测试.executor": "Run",
-    "Python.mongodb_config.executor": "Run",
-    "Python.pdf_test.executor": "Run",
-    "Python.requests测定宅代理.executor": "Run",
-    "Python.stealth_test.executor": "Run",
-    "Python.代理批量测试.executor": "Run",
-    "Python.代理测试.executor": "Run",
-    "Python.代理测试1.executor": "Run",
-    "Python.住宅代理id的request测试.executor": "Run",
-    "Python.宅代理测试.executor": "Run",
-    "Python.异步.executor": "Run",
-    "Python.数据整合.executor": "Run",
-    "Python.整体测试.executor": "Run",
-    "Python.测试.executor": "Run",
-    "Python.测试图片获取.executor": "Run",
-    "Python.测试重构.executor": "Run",
-    "Python.获取文章主体.executor": "Run",
-    "Python.获取评论和作者和点赞的测试.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "new-feature-cxj",
-    "last_opened_file_path": "D:/pythonProject/MediumArticleFetcher/test",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python. main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.11.executor&quot;: &quot;Run&quot;,
+    &quot;Python.MongoDB_atlas_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.api.executor&quot;: &quot;Run&quot;,
+    &quot;Python.api测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.api测试2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.cxjhzw.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fetch.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fetch重构.executor&quot;: &quot;Run&quot;,
+    &quot;Python.get_state.executor&quot;: &quot;Run&quot;,
+    &quot;Python.httpx的代理测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.local_mongodb_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mongoda测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mongodb_config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pdf_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.requests测定宅代理.executor&quot;: &quot;Run&quot;,
+    &quot;Python.stealth_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.代理批量测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.代理测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.代理测试1.executor&quot;: &quot;Run&quot;,
+    &quot;Python.住宅代理id的request测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.宅代理测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.异步.executor&quot;: &quot;Run&quot;,
+    &quot;Python.数据整合.executor&quot;: &quot;Run&quot;,
+    &quot;Python.整体测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.测试.executor&quot;: &quot;Run&quot;,
+    &quot;Python.测试图片获取.executor&quot;: &quot;Run&quot;,
+    &quot;Python.测试重构.executor&quot;: &quot;Run&quot;,
+    &quot;Python.获取文章主体.executor&quot;: &quot;Run&quot;,
+    &quot;Python.获取评论和作者和点赞的测试.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;new-feature-cxj&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/pythonProject/MediumArticleFetcher/test&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\pythonProject\MediumArticleFetcher\test" />
@@ -108,7 +108,7 @@
       <recent name="D:\pythonProject\MediumArticleFetcher\test" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.整体测试">
+  <component name="RunManager" selected="Python.fetch">
     <configuration name="测试图片获取" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="MediumArticleFetcher" />
       <option name="ENV_FILES" value="" />
@@ -364,10 +364,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.整体测试" />
-        <item itemvalue="Python.代理测试" />
-        <item itemvalue="Python.get_state" />
         <item itemvalue="Python.fetch" />
+        <item itemvalue="Python.get_state" />
         <item itemvalue="Python.测试图片获取" />
       </list>
     </recent_temporary>
