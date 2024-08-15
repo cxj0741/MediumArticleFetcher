@@ -12,7 +12,7 @@ from mongodb_config import insert_articles_batch
 article_data_list = []
 
 # 将 Playwright 实例创建在全局
-async def main():
+async def fetch_main(keyword: str = None, refresh: bool = False):
     async with async_playwright() as playwright:
         urls = await run(playwright)
         batch_size = 10
@@ -212,4 +212,4 @@ async def run(playwright, keyword=None, refresh=False):
 
 if __name__ == "__main__":
     global_exception_handler.GlobalExceptionHandler.setup()
-    asyncio.run(main())
+    asyncio.run(fetch_main())

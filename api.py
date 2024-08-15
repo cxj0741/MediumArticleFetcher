@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Query, Path
 from starlette.middleware.cors import CORSMiddleware
-from fetch import run
+from fetch import run, fetch_main
 from playwright.async_api import async_playwright
 import asyncio
 import logging
@@ -41,10 +41,10 @@ async def fetch_data_internal(keyword: str = None, refresh: bool = False):
             fetch_in_progress = True
             async with async_playwright() as playwright:
                 if keyword:
-                    await run(playwright, keyword=keyword)
+                    await fetch_main(playwright, keyword=keyword)
                     message = f"关键字 '{keyword}' 的数据抓取成功。"
                 elif refresh:
-                    await run(playwright, refresh=True)
+                    await fetch_main(playwright, refresh=True)
                     message = "数据刷新成功。"
                 else:
                     message = "没有提供关键字或刷新选项。"
