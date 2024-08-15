@@ -162,7 +162,7 @@ async def scrape_article_content_and_images(url: str):
 
                     # 获取文章中的图片链接
                     images = article.find_all('img')
-                    print(images)
+                    # print(images)
                     img_links = [img.get('src') for img in images]
                     article_data['images'] = img_links
                     # print(article_data['images'])
