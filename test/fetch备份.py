@@ -3,6 +3,7 @@ import os
 import re
 import random
 import httpx
+import requests
 from playwright.async_api import Page, async_playwright
 from bs4 import BeautifulSoup
 import const_config
@@ -102,8 +103,8 @@ async def process_batch(urls):
             for result in results:
                 if isinstance(result, Exception):
                     logger.error(f"任务执行中发生错误: {result}")
-            insert_articles_batch(article_data_list)
-            # print(article_data_list)
+            # insert_articles_batch(article_data_list)
+            print(article_data_list)
         except Exception as e:
             logger.error(f"在 gather 中发生未捕获的错误: {e}")
 

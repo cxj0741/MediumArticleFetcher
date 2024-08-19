@@ -1,7 +1,6 @@
 from fastapi import FastAPI, HTTPException, Query, Path
 from starlette.middleware.cors import CORSMiddleware
-from fetch import run, fetch_main
-from playwright.async_api import async_playwright
+from fetch import fetch_main  # 假设 fetch_main 是你的抓取逻辑函数
 import asyncio
 import logging
 
@@ -39,15 +38,15 @@ async def fetch_data_internal(keyword: str = None, refresh: bool = False):
 
         try:
             fetch_in_progress = True
-            async with async_playwright() as playwright:
-                if keyword:
-                    await fetch_main(playwright, keyword=keyword)
-                    message = f"关键字 '{keyword}' 的数据抓取成功。"
-                elif refresh:
-                    await fetch_main(playwright, refresh=True)
-                    message = "数据刷新成功。"
-                else:
-                    message = "没有提供关键字或刷新选项。"
+
+            if keyword:
+                await fetch_main(keyword=keyword)
+                message = f"关键字 '{keyword}' 的数据抓取成功。"
+            elif refresh:
+                await fetch_main(refresh=True)
+                message = "数据刷新成功。"
+            else:
+                message = "没有提供关键字或刷新选项。"
 
             return {"status": "success", "message": message}
         except asyncio.CancelledError:
@@ -60,20 +59,17 @@ async def fetch_data_internal(keyword: str = None, refresh: bool = False):
 
 @app.get("/api/fetch")
 async def fetch_data(keyword: str = Query(None, description="Keyword for search")):
-    # 如果没有提供keyword，则默认执行刷新操作
+    # 如果没有提供 keyword，则默认执行刷新操作
     refresh = keyword is None
     return await fetch_data_internal(keyword=keyword, refresh=refresh)
 
 @app.get("/api/fetch/{keyword}")
 async def fetch_data_with_path(keyword: str = Path(..., description="Keyword for search")):
-    return await fetch_data_internal(keyword=keyword)
+    return await fetch_data_internal(keyword=keyword, refresh=False)
 
 @app.on_event("startup")
 async def startup_event():
     global fetch_task
-
-    # async def fetch_on_startup():
-    #     await fetch_data_internal(refresh=True)
 
     async def periodic_fetch():
         global fetch_task
@@ -83,28 +79,9 @@ async def startup_event():
                 await fetch_task
             fetch_task = asyncio.create_task(fetch_data_internal(refresh=True))
             # await asyncio.sleep(12 * 60 * 60)  # 等待12个小时
-            await asyncio.sleep( 30 * 60)  # 等待12个小时
+            await asyncio.sleep(30 * 60)  # 等待30分钟
 
-    # # 执行启动时抓取数据和定时任务
-    # fetch_task = asyncio.create_task(fetch_on_startup())
     asyncio.create_task(periodic_fetch())
-
-# @app.get("/api/stop")
-# async def stop_fetch():
-#     """停止当前抓取任务"""
-#     global fetch_task, fetch_in_progress
-#     if fetch_task and not fetch_task.done():
-#         logging.info("取消抓取任务")
-#         fetch_task.cancel()
-#         fetch_in_progress = False  # 确保任务被取消时更新状态
-#         try:
-#             await fetch_task  # 等待任务完全取消
-#         except asyncio.CancelledError:
-#             logging.info("抓取任务已取消")
-#         return {"status": "success", "message": "当前抓取任务已停止。"}
-#     else:
-#         logging.info("没有正在进行的抓取任务")
-#         return {"status": "info", "message": "没有正在进行的抓取任务。"}
 
 @app.get("/api/status")
 async def get_status():

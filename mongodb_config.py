@@ -12,18 +12,22 @@ client = MongoClient(connection_string)
 db = client['articles']  # 选择数据库
 collection = db['article_data']  # 选择集合
 
+# 插入单条数据
 def insert_article_data(article_data):
     try:
         collection.insert_one(article_data)
         print("数据插入成功")
     except Exception as e:
         print(f"数据插入失败: {e}")
+
+# 根据url生成唯一的_id
 def generate_id_from_url(url):
     """
     根据 URL 生成唯一的 _id
     """
     return hashlib.md5(url.encode('utf-8')).hexdigest()
 
+# 批量插入，即使某一条插入错误也不会影响其他，会尽可能的将数据进行插入
 def insert_articles_batch(article_data_list):
     """
     批量插入文章数据，跳过重复的 _id 并继续插入不同的文档
