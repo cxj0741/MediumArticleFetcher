@@ -123,13 +123,13 @@ async def retry_request(request_func, max_retries=5, retry_delay=(1, 3), *args, 
 
 
 async def get_gpt_summary_and_title(client, article_content):
-    api_key = 'sk-ozYXQPQjeu0xCHFg0a1f329dA2194689931b8a6a6809558c'
-    # api_key = 'sk-WTRxkDgTUv8xDifqB0E6823d9fDb4dCbBaF699373b522cC7'
-    # api_url = 'https://ai.marsyoo.com/'
+    # api_key = 'sk-ozYXQPQjeu0xCHFg0a1f329dA2194689931b8a6a6809558c'
+    api_key = 'sk-snwSSPc5VkLWd6mU3cBd8e27211d46338a4c5fC7C52d651c'
+    api_url = 'https://aiserver.marsyoo.com/v1/chat/completions'
 
 
 
-    api_url = 'https://api.ezchat.top/v1/chat/completions'
+    # api_url = 'https://api.ezchat.top/v1/chat/completions'
 
     headers = {
         'Authorization': f'Bearer {api_key}',

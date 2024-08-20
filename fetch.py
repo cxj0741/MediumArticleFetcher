@@ -332,8 +332,8 @@ def parse_article_data(soup,article_data = {}):
 
 # gpt获取标题
 async def get_gpt_summary_and_title(client, article_content):
-    api_key = 'sk-ozYXQPQjeu0xCHFg0a1f329dA2194689931b8a6a6809558c'
-    api_url = 'https://api.ezchat.top/v1/chat/completions'
+    api_key = 'sk-snwSSPc5VkLWd6mU3cBd8e27211d46338a4c5fC7C52d651c'
+    api_url = 'https://aiserver.marsyoo.com/v1/chat/completions'
 
     headers = {
         'Authorization': f'Bearer {api_key}',
@@ -443,6 +443,7 @@ async def run(playwright,keyword=None, refresh=False):
         await page.goto("https://medium.com/",timeout=60000)
         await page.wait_for_load_state("load")
         await page.wait_for_timeout(2000)
+        await page.wait_for_load_state("load")
 
         if keyword is not None:
             await page.fill('[data-testid="headerSearchInput"]', keyword)

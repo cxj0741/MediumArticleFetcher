@@ -5,20 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e0679deb-92da-4208-bd5a-4fb683a76976" name="Changes" comment="修改参数">
-      <change afterPath="$PROJECT_DIR$/failed_url_manager.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/failed_urls.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/failed_urls.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/将失败的代码写入txt文件测试.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/const_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/const_config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/failed_urls.txt" beforeDir="false" afterPath="$PROJECT_DIR$/failed_urls.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fetch.py" beforeDir="false" afterPath="$PROJECT_DIR$/fetch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mongodb_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/mongodb_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/11.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/数据中心代理获取文章内容和图片链接.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/api测试.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/api测试2.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/测试gpt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/cxjhzw.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/fetch备份.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/local_mongodb_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/local_mongodb_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -472,6 +462,9 @@
       <workItem from="1723688452750" duration="26761000" />
       <workItem from="1723769135127" duration="16550000" />
       <workItem from="1723789978385" duration="2216000" />
+      <workItem from="1724028779000" duration="732000" />
+      <workItem from="1724058326342" duration="345000" />
+      <workItem from="1724143436190" duration="2291000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -721,11 +714,11 @@
     <SUITE FILE_PATH="coverage/MediumArticleFetcher$MongoDB_atlas_test.coverage" NAME="MongoDB_atlas_test Coverage Results" MODIFIED="1722953568723" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/fetch_py$cxjhzw.coverage" NAME="cxjhzw Coverage Results" MODIFIED="1723382460584" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/fetch_py$failed_url_manager__1_.coverage" NAME="failed_url_manager (1) Coverage Results" MODIFIED="1723716910225" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/fetch_py$fetch.coverage" NAME="fetch Coverage Results" MODIFIED="1723789784703" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/fetch_py$fetch.coverage" NAME="fetch Coverage Results" MODIFIED="1724144552376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/fetch_py$api.coverage" NAME="api Coverage Results" MODIFIED="1723701893018" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/fetch_py$failed_url_manager.coverage" NAME="failed_url_manager Coverage Results" MODIFIED="1723712069600" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/MediumArticleFetcher$pdf_test.coverage" NAME="pdf_test Coverage Results" MODIFIED="1722957184790" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
-    <SUITE FILE_PATH="coverage/fetch_py$gpt.coverage" NAME="测试gpt Coverage Results" MODIFIED="1723789615867" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
+    <SUITE FILE_PATH="coverage/fetch_py$gpt.coverage" NAME="测试gpt Coverage Results" MODIFIED="1724143625265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/fetch_py$1.coverage" NAME="代理测试1 Coverage Results" MODIFIED="1723646950400" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
     <SUITE FILE_PATH="coverage/fetch_py$get_state.coverage" NAME="get_state Coverage Results" MODIFIED="1723686980220" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/fetch_py$txt__1_.coverage" NAME="将失败的代码写入txt文件测试 (1) Coverage Results" MODIFIED="1723707471229" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test" />
