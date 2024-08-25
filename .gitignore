@@ -164,4 +164,8 @@ cython_debug/
 # 忽略 User Data/
 User Data/
 
+#忽略所有的.txt文件，除了requirements.txt
+*.txt
+!requirements.txt
+
 
