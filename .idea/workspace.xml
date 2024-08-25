@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e0679deb-92da-4208-bd5a-4fb683a76976" name="Changes" comment="修改参数">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/failed_urls.txt" beforeDir="false" afterPath="$PROJECT_DIR$/failed_urls.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fetch.py" beforeDir="false" afterPath="$PROJECT_DIR$/fetch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/代理批量测试.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/代理批量测试.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/代理测试.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/数据中心代理测试.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -491,7 +487,7 @@
       <workItem from="1724143436190" duration="2806000" />
       <workItem from="1724462048777" duration="4632000" />
       <workItem from="1724484616484" duration="3392000" />
-      <workItem from="1724555950220" duration="2418000" />
+      <workItem from="1724555950220" duration="3427000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
