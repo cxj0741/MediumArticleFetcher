@@ -74,13 +74,16 @@ async def handle_failed_urls():
     except Exception as e:
         print(f"处理失败的 URL 文件时发生错误: {e}")
 
-# 异步调用
+# 异步调用真正处理失败的url，并放入数据库
 async def process_failed_url(url, count, temp_failed_urls, permanent_failures):
+    urls=[]
     try:
         # 在这里处理 URL
         print(f"重新处理 URL: {url} (失败次数: {count})")
         await scrape_article_content_and_images(url)  # 异步调用抓取函数
         temp_failed_urls.pop(url, None)  # 将处理成功的 URL 清除
+        urls.append(url)
+        insert_articles_batch(urls)
     except Exception as e:
         # 处理失败，重新记录失败 URL，并增加失败次数
         if count < 5:
@@ -88,7 +91,7 @@ async def process_failed_url(url, count, temp_failed_urls, permanent_failures):
         else:
             # 将失败次数达到最大值的 URL 写入永久失败列表
             permanent_failures.append(f"{url},{count}")
-
+    return urls
 # 批量处理urls
 async def process_batch(urls):
     batch_size = 10
@@ -388,9 +391,18 @@ async def scrape_article_content_and_images(url: str):
     try:
         article_data = {'url': url}
 
-        # 代理信息
+        # 住宅代理信息
+        # proxies = {
+        #     'https://': "https://customer-cxjhzw_DBcRk-cc-us:Lsm666666666+@pr.oxylabs.io:7777"
+        # }
+
+        # 数据中心代理
+        username = 'cxjhzw_2MZmd'
+        password = 'Lsm666666666+'
+        proxy = 'dc.oxylabs.io:8000'
+
         proxies = {
-            'https://': "https://customer-cxjhzw_DBcRk-cc-us:Lsm666666666+@pr.oxylabs.io:7777"
+            "https://": f'https://user-{username}:{password}@{proxy}'
         }
 
         try:

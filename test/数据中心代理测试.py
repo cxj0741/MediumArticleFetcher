@@ -15,8 +15,9 @@ proxies = {
 target_url = "https://medium.com/signifier/blue-mountains-blue-riders-74fc72425423"
 
 response = requests.get(target_url, proxies=proxies)
-response.raise_for_status()  # 检查是否请求成功
 
+response.raise_for_status()  # 检查是否请求成功
+print(f"代理 {proxies} 工作正常")
 soup = BeautifulSoup(response.content, 'html.parser')
 author_locator = soup.select_one('[data-testid="authorName"]')
 print(author_locator.get_text(strip=True))
