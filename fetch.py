@@ -17,6 +17,8 @@ failed_urls = set()
 file_path = 'failed_urls.txt'
 permanent_failures_path = 'permanent_failures.txt'
 
+
+
 # 记录失败的url
 def record_failed_url(urls):
     try:
@@ -45,6 +47,7 @@ async def handle_failed_urls():
     temp_failed_urls = {}
     try:
         # 读取文件并更新失败 URL 和失败次数
+        # 记录存储到 temp_failed_urls 字典中。如果 URL 已经存在于字典中，更新其失败次数为最大值（以防某个 URL 有多个记录）。否则，将 URL 和失败次数添加到字典中。
         with open(file_path, 'r') as file:
             for line in file:
                 url, count = line.strip().split(',')
@@ -54,9 +57,10 @@ async def handle_failed_urls():
                 else:
                     temp_failed_urls[url] = count
 
-        # 处理失败的 URL
+        # 用于存储处理后仍然失败的 URL。
         permanent_failures = []
         tasks = []
+
         for url, count in list(temp_failed_urls.items()):
             tasks.append(process_failed_url(url, count, temp_failed_urls, permanent_failures))
 
@@ -74,16 +78,18 @@ async def handle_failed_urls():
     except Exception as e:
         print(f"处理失败的 URL 文件时发生错误: {e}")
 
-# 异步调用真正处理失败的url，并放入数据库
+# 异步调用真正处理失败的url
 async def process_failed_url(url, count, temp_failed_urls, permanent_failures):
+    # 用于存储成功处理的 URL
     urls=[]
+
     try:
         # 在这里处理 URL
         print(f"重新处理 URL: {url} (失败次数: {count})")
         await scrape_article_content_and_images(url)  # 异步调用抓取函数
         temp_failed_urls.pop(url, None)  # 将处理成功的 URL 清除
         urls.append(url)
-        insert_articles_batch(urls)
+        # insert_articles_batch(urls)
     except Exception as e:
         # 处理失败，重新记录失败 URL，并增加失败次数
         if count < 5:
@@ -92,6 +98,7 @@ async def process_failed_url(url, count, temp_failed_urls, permanent_failures):
             # 将失败次数达到最大值的 URL 写入永久失败列表
             permanent_failures.append(f"{url},{count}")
     return urls
+
 # 批量处理urls
 async def process_batch(urls):
     batch_size = 10
@@ -236,7 +243,9 @@ async def fetch_article_details(url, proxies=None,article_data={}):
     Returns:
         dict: 包含文章信息的字典。
     """
-    async with httpx.AsyncClient(timeout=120, follow_redirects=True, proxies=proxies) as client:
+
+    # todo 这里取消使用代理
+    async with httpx.AsyncClient(timeout=120, follow_redirects=True) as client:
         # 使用 retry_request 方法进行请求，并传递 client.get 作为请求函数
         response = await retry_request(client.get, url=url)
         content = response.text
@@ -354,7 +363,7 @@ async def get_gpt_summary_and_title(client, article_content):
                 'content': f"请为以下文章生成一个标题和摘要(摘要就是1-3个概括文章的关键字)：\n\n{article_content}"
             }
         ],
-        'max_tokens': 100
+        'max_tokens': 50
     }
 
     try:
@@ -387,6 +396,8 @@ async def get_gpt_summary_and_title(client, article_content):
     except httpx.RequestError as e:
         print(f"获取 GPT 响应时发生错误: {e}")
         return None, None
+
+# 给定网站，使用httpx抓取数据，抓取成功就会加入全局列表，后续插入数据库
 async def scrape_article_content_and_images(url: str):
     try:
         article_data = {'url': url}
@@ -434,8 +445,7 @@ async def scrape_article_content_and_images(url: str):
                 else:
                     logger.warning("文章内容为空，无法生成标题和摘要")
 
-
-
+            print(article_data)
             article_data_list.append(article_data)
         except httpx.ConnectError as e:
             logger.error(f"连接错误: {e}")

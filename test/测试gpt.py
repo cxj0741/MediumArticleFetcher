@@ -122,14 +122,64 @@ async def retry_request(request_func, max_retries=5, retry_delay=(1, 3), *args, 
             await asyncio.sleep(delay)  # 延迟重试
 
 
+# async def get_gpt_summary_and_title(client, article_content):
+#     # api_key = 'sk-ozYXQPQjeu0xCHFg0a1f329dA2194689931b8a6a6809558c'
+#     api_key = 'sk-snwSSPc5VkLWd6mU3cBd8e27211d46338a4c5fC7C52d651c'
+#     api_url = 'https://aiserver.marsyoo.com/v1/chat/completions'
+#
+#
+#
+#     # api_url = 'https://api.ezchat.top/v1/chat/completions'
+#
+#     headers = {
+#         'Authorization': f'Bearer {api_key}',
+#         'Content-Type': 'application/json',
+#     }
+#     payload = {
+#         'model': 'gpt-3.5-turbo',
+#         'messages': [
+#             {
+#                 'role': 'system',
+#                 'content': '你是一个帮助生成文章标题和摘要的助手。'
+#             },
+#             {
+#                 'role': 'user',
+#                 'content': f"请为以下文章生成一个标题和摘要(摘要就是1-3个概括文章的关键字)：\n\n{article_content}"
+#             }
+#         ],
+#         'max_tokens': 100
+#     }
+#
+#     try:
+#         response = await retry_request(
+#             client.post,
+#             max_retries=5,
+#             retry_delay=(1, 3),
+#             url=api_url,
+#             json=payload,
+#             headers=headers
+#         )
+#         # response= await client.post(url=api_url, headers=headers, json=payload)
+#         response.raise_for_status()
+#         data = response.json()
+#         content = data['choices'][0]['message']['content']
+#
+#         # 清理返回内容，去掉多余的标签
+#         lines = content.split('\n')
+#         title = lines[0].strip() if lines else ''
+#         summary = ' '.join([line.strip() for line in lines[1:] if line.strip()]) if len(lines) > 1 else ''
+#
+#         # 去掉可能存在的“标题：”或“摘要：”等多余标识
+#         title = title.replace('标题：', '').replace('标题:', '').strip()
+#         summary = summary.replace('摘要：', '').replace('摘要:', '').strip()
+#
+#         return title, summary
+#     except httpx.RequestError as e:
+#         print(f"获取 GPT 响应时发生错误: {e}")
+#         return None, None
 async def get_gpt_summary_and_title(client, article_content):
-    # api_key = 'sk-ozYXQPQjeu0xCHFg0a1f329dA2194689931b8a6a6809558c'
     api_key = 'sk-snwSSPc5VkLWd6mU3cBd8e27211d46338a4c5fC7C52d651c'
     api_url = 'https://aiserver.marsyoo.com/v1/chat/completions'
-
-
-
-    # api_url = 'https://api.ezchat.top/v1/chat/completions'
 
     headers = {
         'Authorization': f'Bearer {api_key}',
@@ -147,23 +197,25 @@ async def get_gpt_summary_and_title(client, article_content):
                 'content': f"请为以下文章生成一个标题和摘要(摘要就是1-3个概括文章的关键字)：\n\n{article_content}"
             }
         ],
-        'max_tokens': 100
+        'max_tokens': 250
     }
 
     try:
-        # response = await retry_request(
-        #     client.post,
-        #     max_retries=5,
-        #     retry_delay=(1, 3),
-        #     url=api_url,
-        #     json=payload,
-        #     headers=headers
-        # )
-        response= await client.post(url=api_url, headers=headers, json=payload)
+        # print("gpt???????????????????????????????????????")
+        # response = await retry_request(client.post, api_url, json=payload, headers=headers)
+        response = await retry_request(
+            client.post,
+            # max_retries=5,
+            # retry_delay=(1, 3),
+            url=api_url,
+            json=payload,
+            headers=headers
+        )
         response.raise_for_status()
         data = response.json()
         content = data['choices'][0]['message']['content']
 
+        print("gpt请求成功")
         # 清理返回内容，去掉多余的标签
         lines = content.split('\n')
         title = lines[0].strip() if lines else ''
@@ -173,11 +225,11 @@ async def get_gpt_summary_and_title(client, article_content):
         title = title.replace('标题：', '').replace('标题:', '').strip()
         summary = summary.replace('摘要：', '').replace('摘要:', '').strip()
 
+        print("标题，摘要生成成功")
         return title, summary
     except httpx.RequestError as e:
         print(f"获取 GPT 响应时发生错误: {e}")
         return None, None
-
 
 async def main():
     article_content = """
