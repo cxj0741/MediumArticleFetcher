@@ -84,23 +84,43 @@ async def startup_event():
             now = datetime.now()
             tomorrow = datetime.combine(now.date() + timedelta(days=1), datetime.min.time())
 
-            # 随机生成一天中的一个时间点
-            random_seconds = random.randint(0, 24 * 60 * 60)
-            random_time = now + timedelta(seconds=random_seconds)
+            # 随机生成一天中的两个不同时间点
+            random_seconds_1 = random.randint(0, 24 * 60 * 60)
+            random_seconds_2 = random.randint(0, 24 * 60 * 60)
+            while random_seconds_2 == random_seconds_1:
+                random_seconds_2 = random.randint(0, 24 * 60 * 60)
+
+            # 确定两个随机时间点
+            random_time_1 = now + timedelta(seconds=random_seconds_1)
+            random_time_2 = now + timedelta(seconds=random_seconds_2)
 
             # 如果生成的时间已经过去，则设置为明天的随机时间
-            if random_time < now:
-                random_time = tomorrow + timedelta(seconds=random_seconds)
+            if random_time_1 < now:
+                random_time_1 = tomorrow + timedelta(seconds=random_seconds_1)
+            if random_time_2 < now:
+                random_time_2 = tomorrow + timedelta(seconds=random_seconds_2)
 
-            # 计算等待时间
-            wait_time = (random_time - now).total_seconds()
-            logging.info(f"下一次抓取将在 {random_time} 进行，等待 {wait_time} 秒")
+            # 确保random_time_1是较早的时间点
+            if random_time_1 > random_time_2:
+                random_time_1, random_time_2 = random_time_2, random_time_1
 
-            # 打印下一次抓取时间
-            print(f"下一次抓取将在 {random_time} 进行，等待 {wait_time} 秒")
+            # 打印并等待第一个时间点
+            wait_time_1 = (random_time_1 - now).total_seconds()
+            logging.info(f"下一次抓取将在 {random_time_1} 进行，等待 {wait_time_1} 秒")
+            print(f"下一次抓取将在 {random_time_1} 进行，等待 {wait_time_1} 秒")
+            await asyncio.sleep(wait_time_1)
 
-            await asyncio.sleep(wait_time)  # 等待随机时间
+            # 执行第一次抓取任务
+            fetch_task = asyncio.create_task(fetch_data_internal(refresh=True))
+            await fetch_task
 
+            # 打印并等待第二个时间点
+            wait_time_2 = (random_time_2 - datetime.now()).total_seconds()
+            logging.info(f"第二次抓取将在 {random_time_2} 进行，等待 {wait_time_2} 秒")
+            print(f"第二次抓取将在 {random_time_2} 进行，等待 {wait_time_2} 秒")
+            await asyncio.sleep(wait_time_2)
+
+            # 执行第二次抓取任务
             fetch_task = asyncio.create_task(fetch_data_internal(refresh=True))
             await fetch_task
 
