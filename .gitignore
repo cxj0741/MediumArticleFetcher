@@ -171,5 +171,9 @@ User Data/
 *.txt
 !requirements.txt
 
+# JetBrains IDE specific files
+.idea/
+
+
 
 
