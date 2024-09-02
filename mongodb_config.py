@@ -3,6 +3,17 @@ import hashlib
 from pymongo import MongoClient
 from pymongo.errors import BulkWriteError
 from logger_config import logger
+from urllib.parse import urlparse, urlunparse
+from bson.regex import Regex
+
+# 去除查询参数
+def remove_query_params(url):
+    """
+    移除 URL 中的查询参数。
+    """
+    parsed_url = urlparse(url)
+    cleaned_url = urlunparse(parsed_url._replace(query=""))
+    return cleaned_url
 
 # 使用URL编码的连接字符串
 connection_string = "mongodb+srv://webcrawler:nSgnzTzGVq%2BuIF@webcrawler.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000"
@@ -23,9 +34,11 @@ def insert_article_data(article_data):
 # 根据url生成唯一的_id
 def generate_id_from_url(url):
     """
-    根据 URL 生成唯一的 _id
+    根据去除查询参数的 URL 生成唯一的 _id。
     """
-    return hashlib.md5(url.encode('utf-8')).hexdigest()
+    cleaned_url = remove_query_params(url)
+    return hashlib.md5(cleaned_url.encode('utf-8')).hexdigest()
+
 
 # 批量插入，即使某一条插入错误也不会影响其他，会尽可能的将数据进行插入
 def insert_articles_batch(article_data_list):
@@ -34,6 +47,8 @@ def insert_articles_batch(article_data_list):
     """
     if article_data_list:
         for article in article_data_list:
+            # 使用清理后的 URL 生成 _id
+            # todo 后续可以将这个去除查询参数提前
             article['_id'] = generate_id_from_url(article['url'])
 
         try:
@@ -62,25 +77,41 @@ def insert_articles_batch(article_data_list):
         except Exception as e:
             logger.error(f"批量插入数据失败: {e}")
 
-# # 测试数据
-# single_document = {"name": "Alice", "age": 30, "city": "New York"}
-# batch_data = [
-#     {"name": "Bob", "age": 25, "city": "Los Angeles"},
-#     {"name": "Charlie", "age": 35, "city": "Chicago"}
-# ]
-#
-# # 插入单个文档
-# print("插入单个文档测试:")
-# insert_article_data(single_document)
-#
-# # 批量插入数据
-# print("批量插入数据测试:")
-# insert_articles_batch(batch_data)
-#
-# # 查询并打印所有文档
-# try:
-#     print("查询所有文档:")
-#     for doc in collection.find():
-#         print(doc)
-# except Exception as e:
-#     print(f"查询失败: {e}")
+
+# 新增函数：获取文章数据
+def get_articles(page=1, limit=10, search=''):
+    """
+    获取文章数据，支持分页和搜索
+    """
+    skip = (page - 1) * limit
+
+    pipeline = [
+        {
+            "$match": {
+                "$or": [
+                    {"title": Regex(search, 'i')},
+                    {"author": Regex(search, 'i')}
+                ]
+            }
+        },
+        {
+            "$addFields": {
+                "likesNumeric": {"$toInt": "$likes"}
+            }
+        },
+        {
+            "$sort": {"likesNumeric": -1}
+        },
+        {
+            "$skip": skip
+        },
+        {
+            "$limit": limit
+        }
+    ]
+
+    articles = list(collection.aggregate(pipeline))
+    total = collection.count_documents({})
+
+    return {"articles": articles, "total": total}
+

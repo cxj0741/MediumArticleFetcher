@@ -2,6 +2,8 @@ import asyncio
 import os
 import random
 import httpx
+import sys
+sys.path.append('..')  # 添加上级目录到系统路径
 from logger_config import logger
 
 

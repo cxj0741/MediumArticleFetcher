@@ -7,6 +7,7 @@ import asyncio
 import logging
 
 from logger_config import logger
+from mongodb_config import get_articles  # 新增：导入 get_articles 函数
 
 app = FastAPI()
 
@@ -133,6 +134,20 @@ async def get_status():
         return {"status": "info", "message": "当前抓取中"}
     else:
         return {"status": "info", "message": "当前空闲"}
+
+@app.get("/api/articles")
+async def api_get_articles(
+    page: int = Query(1, ge=1),
+    limit: int = Query(10, ge=1, le=100),
+    search: str = Query("", max_length=100)
+):
+    """
+    获取文章数据的 API 接口，支持分页和搜索
+    """
+    logger.info(f"API request received: page={page}, limit={limit}, search='{search}'")
+    result = get_articles(page, limit, search)
+    logger.info(f"API response: {result}")
+    return result
 
 if __name__ == '__main__':
     import uvicorn

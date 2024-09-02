@@ -2,7 +2,7 @@ import asyncio
 import os
 import random
 import httpx
-from logger_config import l
+from logger_config import logger
 
 
 failed_urls = set()
