@@ -1,3 +1,4 @@
+import httpx
 import random
 from datetime import datetime, timedelta
 from fastapi import FastAPI, HTTPException, Query, Path
@@ -5,9 +6,11 @@ from starlette.middleware.cors import CORSMiddleware
 from fetch import fetch_main  # 假设 fetch_main 是你的抓取逻辑函数
 import asyncio
 import logging
-
+from pydantic import BaseModel, HttpUrl 
 from logger_config import logger
 from mongodb_config import get_articles  # 新增：导入 get_articles 函数
+
+from article_parser import fetch_article_content, parse_article_data #通过medium网址获取文章
 
 app = FastAPI()
 
@@ -148,6 +151,34 @@ async def api_get_articles(
     result = get_articles(page, limit, search)
     logger.info(f"API response: {result}")
     return result
+
+class UrlInput(BaseModel):
+    url: HttpUrl
+
+@app.post("/api/parse_article")
+async def parse_article(url_input: UrlInput):
+    """
+    解析给定URL的文章内容
+    """
+    url = str(url_input.url)
+    async with httpx.AsyncClient() as client:
+        soup = await fetch_article_content(url, client=client)
+        if soup:
+            article_data = parse_article_data(soup)
+            return article_data
+        else:
+            raise HTTPException(status_code=404, detail="无法获取文章内容")
+
+
+@app.get("/api/parse_article")
+async def parse_article(url: HttpUrl = Query(..., description="Article URL to parse")):
+    async with httpx.AsyncClient() as client:
+        soup = await fetch_article_content(str(url), client=client)
+        if soup:
+            article_data = parse_article_data(soup)
+            return article_data
+        else:
+            raise HTTPException(status_code=404, detail="无法获取文章内容")
 
 if __name__ == '__main__':
     import uvicorn

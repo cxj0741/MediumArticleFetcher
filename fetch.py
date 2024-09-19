@@ -128,6 +128,18 @@ async def fetch_main(keyword: str = None, refresh: bool = False):
         record_failed_url(failed_urls)
         logger.info(f"将失败的url放入文本文件{file_path}")
         failed_urls.clear()  # 清空失败的 URL 集合
+     # 添加以下代码来显示最终记录
+    logger.info(f"总共处理的URL数量: {len(urls)}")
+    logger.info(f"成功处理的文章数量: {len(article_data_list)}")
+    logger.info(f"失败的URL数量: {len(failed_urls)}")
+    
+    # 如果需要，您可以打印更多详细信息
+    for article in article_data_list:
+        logger.info(f"成功处理的文章: {article.get('title', 'No title')} - {article.get('url', 'No URL')}")
+    
+    for failed_url in failed_urls:
+        logger.info(f"处理失败的URL: {failed_url}")
+
 
 async def create_soup(page_content):
     soup = BeautifulSoup(page_content, 'lxml')
@@ -295,7 +307,7 @@ async def fetch_article_details(url, proxies=None,article_data={}):
 
 
 # 请求文章内容并返回解析后的 BeautifulSoup 对象
-async def fetch_article_content(url, timeout=300,client=None):
+async def fetch_article_content(url, timeout=300, client=None):
     """通过URL获取文章内容并返回BeautifulSoup对象。
 
     Args:
@@ -316,31 +328,37 @@ async def fetch_article_content(url, timeout=300,client=None):
         return None
 
 # 解析文章内容并提取数据
-def parse_article_data(soup,article_data = {}):
+def parse_article_data(soup, article_data={}):
     """解析文章内容并提取文本和图片链接。
 
     Args:
         soup (BeautifulSoup): 解析后的文章内容。
+        article_data (dict): 存储文章数据的字典。
 
     Returns:
         dict: 包含文章文本和图片链接的数据字典。
     """
-
-    article = soup.find('article')
-
-    if article:
-        content = article.get_text(separator='\n', strip=True)
-        print("文本内容全文已生成")
+    main_content = soup.find(class_='main-content')
+    if main_content:
+        content = main_content.get_text(separator='\n', strip=True)
         article_data['content'] = content
+        logger.info("文本内容全文已生成")
 
-        # 获取文章中的图片链接
-        images = article.find_all('img')
-        img_links = [img.get('src') for img in images]
+        # 查找所有图片，包括懒加载的图片
+        images = soup.find_all('img')
+        img_links = []
+        for img in images:
+            src = img.get('src') or img.get('data-src')
+            if src:
+                img_links.append(src)
+        
         article_data['images'] = img_links
-        print("图片已生成")
+        logger.info(f"找到 {len(img_links)} 个图片链接")
     else:
+        article_data['content'] = None
         article_data['images'] = None
-        logger.info("没有找到文章")
+        logger.info("没有找到主要内容")
+   
 
 # gpt获取标题
 async def get_gpt_summary_and_title(client, article_content):
@@ -422,10 +440,10 @@ async def scrape_article_content_and_images(url: str):
             logger.error(f"连接错误: {e}")
 
         # 找到最后一个 '/' 的位置
-        last_slash_index = url.rfind('/')
+        # last_slash_index = url.rfind('/')
         # 从最后一个 '/' 开始获取后续的子字符串
-        result = url[last_slash_index:]
-        new_href = const_config.FREE_URL_PREFIX + result
+        # result = url[last_slash_index:]
+        new_href = "https://www.freedium.cfd/"+url
         # print(f"截取以后的url为{url.lstrip('/')}")
         # logger.info(f'拼接后的链接为{new_href}')
 
