@@ -47,3 +47,11 @@ xvfb-run -a python api.py
 4. （可选：先删除本地的state.json文件），执行get_state.py
 5. 注意，执行get_state.py的时候一定要关闭本地的谷歌浏览器，不然会文件冲突
 
+# api使用
+```
+# 获取文章数据(get方法)，使用实例
+基础地址：http://localhost:5000/api/parse_article
+查询参数：url=<文章链接>
+完整实例：http://localhost:5000/api/parse_article?url=https://medium.com/@monicah428/the-early-days-of-valve-from-a-woman-inside-bf80c6b47961?source=explore---------6-108--------------------f7f17187_eea2_4818_8b75_4d205f273321-------15
+
+```
